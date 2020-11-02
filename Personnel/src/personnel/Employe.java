@@ -10,6 +10,7 @@ import java.io.Serializable;
  * il faut passer la méthode {@link Ligue#addEmploye addEmploye}.
  */
 
+
 public class Employe implements Serializable, Comparable<Employe>
 {
 	private static final long serialVersionUID = 4795721718037994734L;
