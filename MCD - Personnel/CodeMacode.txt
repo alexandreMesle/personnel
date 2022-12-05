@@ -1,0 +1,6 @@
+EMPLOYE : idEmploye, nom, prénom, Password, mail, estAdmin
+ADMINISTRER, 01 LIGUE, 11 EMPLOYE
+
+RECENSER, 0N EMPLOYE, 01 LIGUE
+LIGUE : idLigue, nom
+
