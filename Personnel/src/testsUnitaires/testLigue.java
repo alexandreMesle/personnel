@@ -83,5 +83,19 @@ class testLigue
 		assertFalse(gestionPersonnel.getLigues().contains(ligue));
 	}
 	
-
+	@Test
+	void testCompareTo() throws SauvegardeImpossible
+	{
+		Ligue ligue = gestionPersonnel.addLigue("Fléchettes");
+		Ligue ligue2 = gestionPersonnel.addLigue("Bowling");
+		ligue.compareTo(ligue2);
+	}
+	
+	@Test
+	void testToString() throws SauvegardeImpossible
+	{
+		Ligue basketball = gestionPersonnel.addLigue("Basketball");
+		assertEquals("Basketball", basketball.toString());
+	}
+	
 }

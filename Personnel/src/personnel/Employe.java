@@ -1,5 +1,6 @@
 package personnel;
 
+import java.time.LocalDate;
 import java.io.Serializable;
 
 /**
@@ -16,6 +17,7 @@ public class Employe implements Serializable, Comparable<Employe>
 	private String nom, prenom, password, mail;
 	private Ligue ligue;
 	private GestionPersonnel gestionPersonnel;
+	private LocalDate dateA, dateD;
 	
 	Employe(GestionPersonnel gestionPersonnel, Ligue ligue, String nom, String prenom, String mail, String password)
 	{
@@ -25,6 +27,8 @@ public class Employe implements Serializable, Comparable<Employe>
 		this.password = password;
 		this.mail = mail;
 		this.ligue = ligue;
+		dateA = LocalDate.now();
+		dateD = null;
 	}
 	
 	/**
@@ -180,5 +184,38 @@ public class Employe implements Serializable, Comparable<Employe>
 		else
 			res += ligue.toString();
 		return res + ")";
+	}
+	
+	public void setDateD(int an, int mois, int jour) throws SauvegardeImpossible
+	{
+		LocalDate date = LocalDate.of(an, mois, jour);
+		if(date.isBefore(dateA))
+			throw new SauvegardeImpossible(null);
+		else	
+				this.dateD = date;
+	}
+	
+	public void setDateA(int an, int mois, int jour) throws SauvegardeImpossible
+	{
+		LocalDate date = LocalDate.of(an, mois, jour);
+		if(dateD != null)
+		{
+			if(date.isAfter(dateD))
+				throw new SauvegardeImpossible(null);
+			else
+				this.dateA = date;
+		}
+		else 	
+			this.dateA = date;
+	}
+	
+	public LocalDate getDateD()
+	{
+		return dateD;
+	}
+	
+	public LocalDate getDateA()
+	{
+		return dateA;
 	}
 }

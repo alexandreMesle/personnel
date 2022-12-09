@@ -2,7 +2,7 @@ package testsUnitaires;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
-
+import java.time.LocalDate;
 import personnel.*;
 
 class testEmploye 
@@ -133,5 +133,25 @@ class testEmploye
 	{
 		Employe root = gestionPersonnel.getRoot();
 		assertThrows(ImpossibleDeSupprimerRoot.class, () ->root.remove());
+	}
+	
+	@Test
+	void setDateD() throws SauvegardeImpossible
+	{
+		Ligue ligue = gestionPersonnel.addLigue("Fléchettes");
+		Employe employe = ligue.addEmploye("Bouchard", "Gérard", "g.bouchard@gmail.com", "azerty");
+		employe.setDateD(2022,12,11);
+		LocalDate date = LocalDate.of(2022, 12, 11);
+		assertEquals(date, employe.getDateD());
+	}
+	
+	@Test
+	void setDateA() throws SauvegardeImpossible
+	{
+		Ligue ligue = gestionPersonnel.addLigue("Fléchettes");
+		Employe employe = ligue.addEmploye("Bouchard", "Gérard", "g.bouchard@gmail.com", "azerty");
+		employe.setDateA(2022,12,10);
+		LocalDate date = LocalDate.of(2022, 12, 10);
+		assertEquals(date, employe.getDateA());
 	}
 }
