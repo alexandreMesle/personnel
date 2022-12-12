@@ -88,7 +88,7 @@ class testLigue
 	{
 		Ligue ligue = gestionPersonnel.addLigue("Fléchettes");
 		Ligue ligue2 = gestionPersonnel.addLigue("Bowling");
-		ligue.compareTo(ligue2);
+		assertEquals(4,ligue.compareTo(ligue2));
 	}
 	
 	@Test
