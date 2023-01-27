@@ -11,7 +11,7 @@ public class EmployeConsole
 {
 	private Option afficher(final Employe employe)
 	{
-		return new Option("Afficher l'employé", "l", () -> {System.out.println(employe);});
+		return new Option("Afficher l'employé", "0", () -> {System.out.println(employe);});
 	}
 
 	ListOption<Employe> editerEmploye()

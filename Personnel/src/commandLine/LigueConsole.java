@@ -23,7 +23,7 @@ public class LigueConsole
 
 	Menu menuLigues()
 	{
-		Menu menu = new Menu("Gérer les ligues", "l");
+		Menu menu = new Menu("Gérer les ligues", "0");
 		menu.add(afficherLigues());
 		menu.add(ajouterLigue());
 		menu.add(selectionnerLigue());
@@ -33,12 +33,12 @@ public class LigueConsole
 
 	private Option afficherLigues()
 	{
-		return new Option("Afficher les ligues", "l", () -> {System.out.println(gestionPersonnel.getLigues());});
+		return new Option("Afficher les ligues", "0", () -> {System.out.println(gestionPersonnel.getLigues());});
 	}
 
 	private Option afficher(final Ligue ligue)
 	{
-		return new Option("Afficher la ligue", "l", 
+		return new Option("Afficher la ligue", "0", 
 				() -> 
 				{
 					System.out.println(ligue);
@@ -48,7 +48,7 @@ public class LigueConsole
 	}
 	private Option afficherEmployes(final Ligue ligue)
 	{
-		return new Option("Afficher les employes", "l", () -> {System.out.println(ligue.getEmployes());});
+		return new Option("Afficher les employes", "0", () -> {System.out.println(ligue.getEmployes());});
 	}
 
 	private Option ajouterLigue()
