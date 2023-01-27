@@ -2,6 +2,7 @@ package personnel;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 
 /**
  * Employé d'une ligue hébergée par la M2L. Certains peuvent 
@@ -160,17 +161,48 @@ public class Employe implements Serializable, Comparable<Employe>
 		return this.date_depart;
 	}
 
+	// TODO: retirer depart si arrivé
 	/* affecte une nouvelle valeur a la date d'arrive
 	@param un objet LocalDate qui represente la nouvelle date d'arrive */
-	public void setArrive(LocalDate with_date) {
+	public void setArrive(LocalDate with_date) throws MauvaiseDate {
+		
+		if ( this.date_arrive != null && with_date.isBefore(this.date_arrive) ) {
+			throw new MauvaiseDate("impossible de definir une date de d'arrive qui est avant l'ancienne date d'arrive");
+		}
+		
+		if ( this.date_depart != null ) {
+			this.date_depart = null;
+		}
+		
 		this.date_arrive = with_date;
 	}
 
+	// TODO: check si depart < a arrivé
 	/* affecte une nouvelle valeur a la date depart
 	@param un objet LocalDate qui represente la nouvelle date de depart */
-	public void setDepart(LocalDate with_date) {
+	public void setDepart(LocalDate with_date) throws MauvaiseDate{
+		
+		if ( this.date_arrive == null ) {
+			throw new MauvaiseDate("impossible de definir uen date de depart si il n'y a pas de date d'arrivé");
+		}
+		
+		if ( with_date.isBefore(this.date_arrive) ) {
+			throw new MauvaiseDate("la date de départ de peux pas etre avant la date d'arrivé");
+		}
+		
 		this.date_depart = with_date;
 	}
+	
+	// TODO: ajouter method pour ajouter depuis un string, throw si pas bon
+	public void setDepart(String with_date) throws DateTimeParseException, MauvaiseDate {
+		LocalDate date = LocalDate.parse(with_date);
+		this.setDepart(date);
+	}
+	public void setArrive(String with_date) throws MauvaiseDate {
+		LocalDate date = LocalDate.parse(with_date);
+		this.setDepart(date);
+	}
+	
 
 	/**
 	 * Supprime l'employé. Si celui-ci est un administrateur, le root

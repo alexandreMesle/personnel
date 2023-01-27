@@ -19,6 +19,7 @@ public class EmployeConsole
 		return (employe) -> editerEmploye(employe);		
 	}
 
+	// TODO: ajouter menus (depart, arrivé)
 	Option editerEmploye(Employe employe)
 	{
 			Menu menu = new Menu("Gérer le compte " + employe.getNom(), "c");
