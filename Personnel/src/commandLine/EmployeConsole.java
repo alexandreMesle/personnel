@@ -6,6 +6,8 @@ import commandLineMenus.ListOption;
 import commandLineMenus.Menu;
 import commandLineMenus.Option;
 import personnel.Employe;
+import personnel.Ligue;
+import personnel.SauvegardeImpossible;
 
 public class EmployeConsole 
 {

@@ -3,6 +3,8 @@ package commandLine;
 import static commandLineMenus.rendering.examples.util.InOut.getString;
 
 import java.util.ArrayList;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 
 import commandLineMenus.List;
 import commandLineMenus.Menu;
@@ -97,12 +99,28 @@ public class LigueConsole
 		return new Option("ajouter un employé", "a",
 				() -> 
 				{
-					ligue.addEmploye(getString("nom : "), 
-						getString("prenom : "), getString("mail : "), 
-						getString("password : "));
+					String nom, prenom, mail, password;
+					LocalDate Arrivee = null, Depart = null;
+
+					nom = getString("nom : ");
+					prenom = getString("prenom : ");
+					mail = getString("mail : ");
+					password = getString("password : ");
+					Arrivee = parseDate("Date Arrivee : ");
+					Depart = parseDate("Date Depart : ");
+					ligue.addEmploye(nom, prenom, mail, password, Arrivee, Depart);
 				}
 		);
 	}
+	  private LocalDate parseDate(String string){
+	        while(true)
+	            try {
+	            return LocalDate.parse(getString(string));
+	             }
+	        catch(DateTimeParseException e) {
+	             System.out.println("Erreur.");
+	             }
+	    }
 	
 	private Menu gererEmployes(Ligue ligue)
 	{
