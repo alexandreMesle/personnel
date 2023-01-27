@@ -23,7 +23,8 @@
 <div align="center">
 
 # `Introduction`
-Un des responsables de la M2L, utilise une application pour gérer les employés des ligues. L’application est mise à votre disposition par le biais des ressources suivantes :
+Un des responsables de la M2L, utilise une application pour gérer les employés des ligues. <br>
+L’application est mise à votre disposition par le biais des ressources suivantes :
 
 
 
