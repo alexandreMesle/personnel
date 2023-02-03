@@ -7,7 +7,6 @@ import commandLineMenus.Menu;
 import commandLineMenus.Option;
 import personnel.Employe;
 import personnel.Ligue;
-import personnel.SauvegardeImpossible;
 
 public class EmployeConsole 
 {
@@ -30,7 +29,7 @@ public class EmployeConsole
 			menu.add(changerMail(employe));
 			menu.add(changerPassword(employe));
 			menu.add(supprimerEmploye(employe));
-			menu.add(MetAdmin(employe));
+			
 			menu.addBack("q");
 			return menu;
 	}
@@ -61,13 +60,7 @@ public class EmployeConsole
 			employe.remove();
 		});
 	}
-	// permet de mettre l'employe en admin dans la console
-	private Option MetAdmin(final Employe employe) {
-		Ligue ligue = employe.getLigue();
-		return new Option("Met admin de la ligue", "k", () -> {
-			ligue.setAdministrateur(employe);
-			});
-	}
+
 	
 
 }

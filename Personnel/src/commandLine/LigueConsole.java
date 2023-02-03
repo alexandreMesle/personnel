@@ -143,13 +143,6 @@ public class LigueConsole
                 );
 	}		
 
-	private List<Employe> modifierEmploye(final Ligue ligue)
-	{
-		return new List<>("Modifier un employé", "e", 
-				() -> new ArrayList<>(ligue.getEmployes()),
-				employeConsole.editerEmploye()
-				);
-	}
 	private List<Employe> selectionnerEmploye(final Ligue ligue)
 	{
 		return new List<>("Selectionner un employé", "r", 
