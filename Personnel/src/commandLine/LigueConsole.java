@@ -73,7 +73,7 @@ public class LigueConsole
 		Menu menu = new Menu("Editer " + ligue.getNom());
 		menu.add(afficher(ligue));
 		menu.add(gererEmployes(ligue));
-		//menu.add(changerAdministrateur(ligue));
+		menu.add(changerAdministrateur(ligue));
 		menu.add(changerNom(ligue));
 		menu.add(supprimer(ligue));
 		menu.addBack("q");
@@ -106,8 +106,8 @@ public class LigueConsole
 					prenom = getString("prenom : ");
 					mail = getString("mail : ");
 					password = getString("password : ");
-					Arrivee = parseDate("Date Arrivee : ");
-					Depart = parseDate("Date Depart : ");
+					Arrivee = parseDate("Date Arrivee YYYY-MM-DD : ");
+					Depart = parseDate("Date Depart YYYY-MM-DD : ");
 					ligue.addEmploye(nom, prenom, mail, password, Arrivee, Depart);
 				}
 		);
@@ -143,7 +143,10 @@ public class LigueConsole
 	
 	private List<Employe> changerAdministrateur(final Ligue ligue)
 	{
-		return null;
+		return new List<>("Modifier l'administrateur de la ligue", "0", 
+                () -> new ArrayList<>(ligue.getEmployes()),
+                (index, element) -> {ligue.setAdministrateur(element);}
+                );
 	}		
 
 	private List<Employe> modifierEmploye(final Ligue ligue)
