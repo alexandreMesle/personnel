@@ -44,6 +44,7 @@ public class EmployeConsole
 			menu.add(changerMail(employe));
 			menu.add(changerPassword(employe));
 			menu.add(changerDateDepart(employe));
+			menu.add(changerDateArrive(employe));
 			menu.addBack("q");
 			return menu;
 	}
@@ -92,6 +93,25 @@ public class EmployeConsole
 			catch (MauvaiseDate e) 
 			{
 				System.out.println("Veuillez saisir une date superieur à "+employe.getArrive());
+				
+			}
+		});
+	}
+	
+	private Option changerDateArrive(final Employe employe) {
+		return new Option("Modifier la date d'arrivé","d",()->
+		{			
+			try 
+			{
+				employe.setArrive(getString("Veuillez saisir la date au format (année-mois-jour) : "));
+			} 
+			catch (DateTimeParseException e) 
+			{
+				System.out.println("Format incorrect | format : année-mois-jour");
+			}
+			catch (MauvaiseDate e) 
+			{
+				System.out.println("Veuillez saisir une date inférieur à "+employe.getDepart());
 				
 			}
 		});
