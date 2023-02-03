@@ -47,7 +47,7 @@ class testEmployer
 		LocalDate now = LocalDate.now();
 		Employe an_employer = new Employe(null, null, "bob", "", "", "toor", now, now);
 	    assertThrows(MauvaiseDate.class, () -> {
-	    	an_employer.setArrive("2002-12-07");
+	    	an_employer.setDepart("2002-12-07");
 	    });
 	}
 	@Test
@@ -59,12 +59,12 @@ class testEmployer
 	    });
 	}
 	@Test
-	void test_date_depart_add_before_date_arrive() {
+	void test_date_depart_add_before_date_arrive() throws MauvaiseDate {
 		LocalDate now = LocalDate.now();
 		Employe an_employer = new Employe(null, null, "bob", "", "", "toor", null, null);
-		an_employer.setDepart("2022-12-07");
+		an_employer.setArrive("2022-12-07");
 	    assertThrows(MauvaiseDate.class, () -> {
-	    	an_employer.setDepart("2022-12-07");
+	    	an_employer.setDepart("2021-12-07");
 	    });
 	}
 	
