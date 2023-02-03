@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : ven. 03 fév. 2023 à 16:49
+-- Généré le : ven. 03 fév. 2023 à 17:23
 -- Version du serveur : 10.4.27-MariaDB
 -- Version de PHP : 8.2.0
 
@@ -39,6 +39,17 @@ CREATE TABLE `employe` (
   `id_ligue` int(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `ligue`
+--
+
+CREATE TABLE `ligue` (
+  `id_ligue` int(255) NOT NULL,
+  `nom_ligue` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
 --
 -- Index pour les tables déchargées
 --
@@ -51,6 +62,12 @@ ALTER TABLE `employe`
   ADD KEY `id_ligue` (`id_ligue`);
 
 --
+-- Index pour la table `ligue`
+--
+ALTER TABLE `ligue`
+  ADD PRIMARY KEY (`id_ligue`);
+
+--
 -- AUTO_INCREMENT pour les tables déchargées
 --
 
@@ -59,6 +76,12 @@ ALTER TABLE `employe`
 --
 ALTER TABLE `employe`
   MODIFY `id_employee` int(255) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `ligue`
+--
+ALTER TABLE `ligue`
+  MODIFY `id_ligue` int(255) NOT NULL AUTO_INCREMENT;
 
 --
 -- Contraintes pour les tables déchargées
