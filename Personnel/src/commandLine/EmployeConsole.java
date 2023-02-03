@@ -31,7 +31,6 @@ public class EmployeConsole
 //			menu.add(changerDateArrivee(employe));
 //			menu.add(changerDateDepart(employe));
 			menu.add(supprimerEmploye(employe));
-			
 			menu.addBack("q");
 			return menu;
 	}
@@ -65,9 +64,9 @@ public class EmployeConsole
 	
 	private Option changerPassword(final Employe employe)
 	{
-		return new Option("Changer le password", "x", () -> 
+		return new Option("Changer le mot de passe", "x", () -> 
 		{
-			employe.setPassword(getString("Nouveau password : "));
+			employe.setPassword(getString("Nouveau mot de passe : "));
 		});
 	}
 	private Option supprimerEmploye(final Employe employe) 

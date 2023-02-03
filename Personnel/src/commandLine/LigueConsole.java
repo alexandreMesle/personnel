@@ -105,7 +105,7 @@ public class LigueConsole
 					nom = getString("nom : ");
 					prenom = getString("prenom : ");
 					mail = getString("mail : ");
-					password = getString("password : ");
+					password = getString("mot de passe : ");
 					Arrivee = parseDate("Date Arrivee YYYY-MM-DD : ");
 					Depart = parseDate("Date Depart YYYY-MM-DD : ");
 					ligue.addEmploye(nom, prenom, mail, password, Arrivee, Depart);
@@ -117,9 +117,11 @@ public class LigueConsole
 	            try {
 	            return LocalDate.parse(getString(string));
 	             }
-	        catch(DateTimeParseException e) {
-	             System.out.println("Erreur.");
-	             }
+	        catch(DateTimeParseException e) 
+	        {
+	             System.out.println("Erreur! Veuillez respecter le format YYYY-MM-DD");
+	        }
+	    
 	    }
 	
 	private Menu gererEmployes(Ligue ligue)
@@ -128,7 +130,6 @@ public class LigueConsole
 		menu.add(afficherEmployes(ligue));
 		menu.add(ajouterEmploye(ligue));
 		menu.add(selectionnerEmploye(ligue));
-
 		menu.addBack("q");
 		return menu;
 	}
@@ -139,7 +140,8 @@ public class LigueConsole
 	{
 		return new List<>("Modifier l'administrateur de la ligue", "o", 
                 () -> new ArrayList<>(ligue.getEmployes()),
-                (index, element) -> {ligue.setAdministrateur(element);}
+                (index, element) -> {ligue.setAdministrateur(element);
+                }
                 );
 	}		
 
@@ -152,7 +154,8 @@ public class LigueConsole
 	}
 	private Option supprimer(Ligue ligue)
 	{
-		return new Option("Supprimer", "d", () -> {ligue.remove();});
+		return new Option("Supprimer", "d", () -> {ligue.remove();
+		});
 	}
 	
 }
