@@ -22,7 +22,7 @@ public class EmployeConsole
 		return (employe) -> gestionEmploye(employe);
 	}
 
-	
+
 	Option gestionEmploye(Employe employe) {
 		Menu menu = new Menu("Selectionner le compte " + employe.getNom(), "g");
 		menu.add(afficher(employe));
@@ -32,6 +32,7 @@ public class EmployeConsole
 		menu.setAutoBack(true);
 		return menu;
 	}
+
 	Option editerEmploye(Employe employe)
 	{
 			Menu menu = new Menu("Modifier le compte " + employe.getNom(), "c");
