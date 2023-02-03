@@ -18,12 +18,24 @@ public class EmployeConsole
 	{
 		return (employe) -> editerEmploye(employe);		
 	}
+	ListOption<Employe> gestionEmploye(){
+		return (employe) -> gestionEmploye(employe);
+	}
 
-	// TODO: ajouter menus (depart, arrivé)
+
+	Option gestionEmploye(Employe employe) {
+		Menu menu = new Menu("Selectionner le compte " + employe.getNom(), "g");
+		menu.add(afficher(employe));
+		menu.add(supprimerEmploye(employe));
+		menu.add(editerEmploye(employe));
+		menu.addBack("q");
+		menu.setAutoBack(true);
+		return menu;
+	}
+
 	Option editerEmploye(Employe employe)
 	{
-			Menu menu = new Menu("Gérer le compte " + employe.getNom(), "c");
-			menu.add(afficher(employe));
+			Menu menu = new Menu("Modifier le compte " + employe.getNom(), "c");
 			menu.add(changerNom(employe));
 			menu.add(changerPrenom(employe));
 			menu.add(changerMail(employe));
@@ -32,11 +44,10 @@ public class EmployeConsole
 			return menu;
 	}
 
+
 	private Option changerNom(final Employe employe)
 	{
-		return new Option("Changer le nom", "n", 
-				() -> {employe.setNom(getString("Nouveau nom : "));}
-			);
+		return new Option("Changer le nom", "n", () -> {employe.setNom(getString("Nouveau nom : "));});
 	}
 	
 	private Option changerPrenom(final Employe employe)
@@ -53,6 +64,15 @@ public class EmployeConsole
 	{
 		return new Option("Changer le password", "x", () -> {employe.setPassword(getString("Nouveau password : "));});
 	}
-	
+	private Option supprimerEmploye(final Employe employe) {
+		return new Option ("Supprimer l'employé","s", () -> 
+		{
+		  System.out.println("L'employé a été supprimer appuyer sur q pour revenir à l'écran précédent");
+		  employe.remove();
+		  
+		  
+		});
+	}
+
 
 }
