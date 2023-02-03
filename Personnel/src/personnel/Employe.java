@@ -200,7 +200,7 @@ public class Employe implements Serializable, Comparable<Employe>
 	}
 	public void setArrive(String with_date) throws MauvaiseDate {
 		LocalDate date = LocalDate.parse(with_date);
-		this.setDepart(date);
+		this.setArrive(date);
 	}
 	
 
