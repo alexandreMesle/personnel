@@ -28,39 +28,70 @@ public class EmployeConsole
 			menu.add(changerPrenom(employe));
 			menu.add(changerMail(employe));
 			menu.add(changerPassword(employe));
+//			menu.add(changerDateArrivee(employe));
+//			menu.add(changerDateDepart(employe));
 			menu.add(supprimerEmploye(employe));
 			
 			menu.addBack("q");
 			return menu;
 	}
 
+
+
 	private Option changerNom(final Employe employe)
 	{
-		return new Option("Changer le nom", "n", 
-				() -> {employe.setNom(getString("Nouveau nom : "));}
+		return new Option("Changer le nom", "n", () -> 
+		{
+			employe.setNom(getString("Nouveau nom : "));
+			}
 			);
 	}
 	
 	private Option changerPrenom(final Employe employe)
 	{
-		return new Option("Changer le prénom", "p", () -> {employe.setPrenom(getString("Nouveau prénom : "));});
+		return new Option("Changer le prénom", "p", () -> 
+		{
+			employe.setPrenom(getString("Nouveau prénom : "));
+			});
 	}
 	
 	private Option changerMail(final Employe employe)
 	{
-		return new Option("Changer le mail", "e", () -> {employe.setMail(getString("Nouveau mail : "));});
+		return new Option("Changer le mail", "e", () -> 
+		{
+			employe.setMail(getString("Nouveau mail : "));
+			});
 	}
 	
 	private Option changerPassword(final Employe employe)
 	{
-		return new Option("Changer le password", "x", () -> {employe.setPassword(getString("Nouveau password : "));});
+		return new Option("Changer le password", "x", () -> 
+		{
+			employe.setPassword(getString("Nouveau password : "));
+		});
 	}
-	private Option supprimerEmploye(final Employe employe) {
-		return new Option("supprimer", "r", () -> {
+	private Option supprimerEmploye(final Employe employe) 
+	{
+		return new Option("supprimer", "r", () -> 
+		{
 			employe.remove();
 		});
 	}
 
+//	private Option changerDateDepart(Employe employe) 
+//	{
+//		return new Option("Changer la date d'arrivee", "z", () -> 
+//		{
+//			employe.setArrivee(getString("Nouvelle date d'entree : "));
+//		});
+//	}
+//
+//	private Option changerDateArrivee(Employe employe) 
+//	{
+//		return new Option("Changer la date de depart", "w", () -> 
+//		{
+//			employe.setDepart(getString("Nouvelle date de depart : "));
+//		});
+//	}
 	
-
 }

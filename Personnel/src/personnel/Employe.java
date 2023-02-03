@@ -141,6 +141,16 @@ public class Employe implements Serializable, Comparable<Employe>
 	{
 		this.password= password;
 	}
+	
+//	public void setDepart(LocalDate dateDepart) 
+//	{
+//		this.dateDepart = dateDepart ;
+//	}
+//
+//	public void setArrivee(LocalDate dateArrivee) 
+//	{
+//		this.dateArrivee = dateArrivee ;
+//	}
 
 	/**
 	 * Retourne la ligue à laquelle l'employé est affecté.
@@ -189,4 +199,9 @@ public class Employe implements Serializable, Comparable<Employe>
 			res += ligue.toString();
 		return res + ")";
 	}
+
+
+
+
+	
 }
