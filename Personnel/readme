@@ -43,3 +43,4 @@ Un des responsables de la M2L, utilise une application pour gérer les employés
     EMPLOYE : idemployee, nom, prénom, mail, password, datearrivée, datedépart, habilitation
     APPARTENIR, 0N LIGUE, 01 EMPLOYE:
     LIGUE : idligue, nomligue
+    -
