@@ -2,10 +2,13 @@ package commandLine;
 
 import static commandLineMenus.rendering.examples.util.InOut.getString;
 
+import java.time.format.DateTimeParseException;
+
 import commandLineMenus.ListOption;
 import commandLineMenus.Menu;
 import commandLineMenus.Option;
 import personnel.Employe;
+import personnel.MauvaiseDate;
 
 public class EmployeConsole 
 {
@@ -40,6 +43,7 @@ public class EmployeConsole
 			menu.add(changerPrenom(employe));
 			menu.add(changerMail(employe));
 			menu.add(changerPassword(employe));
+			menu.add(changerDateDepart(employe));
 			menu.addBack("q");
 			return menu;
 	}
@@ -71,6 +75,25 @@ public class EmployeConsole
 		  employe.remove();
 		  
 		  
+		});
+		
+	}
+	private Option changerDateDepart(final Employe employe) {
+		return new Option("Modifier la date de départ","d",()->
+		{			
+			try 
+			{
+				employe.setDepart(getString("Veuillez saisir la date au format (année-mois-jour) : "));
+			} 
+			catch (DateTimeParseException e) 
+			{
+				System.out.println("Format incorrect | format : année-mois-jour");
+			}
+			catch (MauvaiseDate e) 
+			{
+				System.out.println("Veuillez saisir une date superieur à "+employe.getArrive());
+				
+			}
 		});
 	}
 
