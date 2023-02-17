@@ -96,21 +96,27 @@ public class LigueConsole
 	
 	private Option ajouterEmploye(final Ligue ligue)
 	{
-		return new Option("ajouter un employé", "a",
-				() -> 
-				{
-					String nom, prenom, mail, password;
-					LocalDate Arrivee = null, Depart = null;
+	    return new Option("ajouter un employé", "a",
+	        () -> 
+	        {
+	            String nom, prenom, mail, password;
+	            LocalDate Arrivee = null, Depart = null;
 
-					nom = getString("nom : ");
-					prenom = getString("prenom : ");
-					mail = getString("mail : ");
-					password = getString("mot de passe : ");
-					Arrivee = parseDate("Date Arrivee YYYY-MM-DD : ");
-					Depart = parseDate("Date Depart YYYY-MM-DD : ");
-					ligue.addEmploye(nom, prenom, mail, password, Arrivee, Depart);
-				}
-		);
+	            nom = getString("nom : ");
+	            prenom = getString("prenom : ");
+	            mail = getString("mail : ");
+	            password = getString("mot de passe : ");
+	            Arrivee = parseDate("Date Arrivee YYYY-MM-DD : ");
+	            while (true) {
+	                Depart = parseDate("Date Depart YYYY-MM-DD : ");
+	                if (!Depart.isBefore(Arrivee)) {
+	                    break;
+	                }
+	                System.out.println("La date de départ doit être postérieure ou égale à la date d'arrivée.");
+	            }
+	            ligue.addEmploye(nom, prenom, mail, password, Arrivee, Depart);
+	        }
+	    );
 	}
 	  private LocalDate parseDate(String string){
 	        while(true)
@@ -119,7 +125,7 @@ public class LigueConsole
 	             }
 	        catch(DateTimeParseException e) 
 	        {
-	             System.out.println("Erreur! Veuillez respecter le format YYYY-MM-DD");
+	             System.err.println("Erreur! Veuillez respecter le format YYYY-MM-DD");
 	        }
 	    
 	    }
