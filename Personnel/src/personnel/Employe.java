@@ -1,6 +1,7 @@
 package personnel;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 /**
  * Employé d'une ligue hébergée par la M2L. Certains peuvent 
@@ -14,10 +15,11 @@ public class Employe implements Serializable, Comparable<Employe>
 {
 	private static final long serialVersionUID = 4795721718037994734L;
 	private String nom, prenom, password, mail;
+	private LocalDate date_arrive, date_depart;
 	private Ligue ligue;
 	private GestionPersonnel gestionPersonnel;
 	
-	Employe(GestionPersonnel gestionPersonnel, Ligue ligue, String nom, String prenom, String mail, String password)
+	public Employe(GestionPersonnel gestionPersonnel, Ligue ligue, String nom, String prenom, String mail, String password, LocalDate arrive_en, LocalDate partit_en)
 	{
 		this.gestionPersonnel = gestionPersonnel;
 		this.nom = nom;
@@ -25,6 +27,8 @@ public class Employe implements Serializable, Comparable<Employe>
 		this.password = password;
 		this.mail = mail;
 		this.ligue = ligue;
+		this.date_arrive = arrive_en;
+		this.date_depart = partit_en;
 	}
 	
 	/**
@@ -144,6 +148,30 @@ public class Employe implements Serializable, Comparable<Employe>
 		return ligue;
 	}
 
+	/* retourne la date d'arrive d'un employer
+	@return retourne la date d'arrive d'un employer  */
+	public LocalDate getArrive() {
+		return this.date_arrive;
+	}
+
+	/* retourne la date de depart d'un employer
+	@return retourne la date de depart d'un employer  */	
+	public LocalDate getDepart() {
+		return this.date_depart;
+	}
+
+	/* affecte une nouvelle valeur a la date d'arrive
+	@param un objet LocalDate qui represente la nouvelle date d'arrive */
+	public void setArrive(LocalDate with_date) {
+		this.date_arrive = with_date;
+	}
+
+	/* affecte une nouvelle valeur a la date depart
+	@param un objet LocalDate qui represente la nouvelle date de depart */
+	public void setDepart(LocalDate with_date) {
+		this.date_depart = with_date;
+	}
+
 	/**
 	 * Supprime l'employé. Si celui-ci est un administrateur, le root
 	 * récupère les droits d'administration sur sa ligue.
@@ -174,7 +202,7 @@ public class Employe implements Serializable, Comparable<Employe>
 	@Override
 	public String toString()
 	{
-		String res = nom + " " + prenom + " " + mail + " (";
+		String res = nom + " " + prenom + " " + mail + " " + this.date_arrive + " (";
 		if (estRoot())
 			res += "super-utilisateur";
 		else
