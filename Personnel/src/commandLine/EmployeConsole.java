@@ -28,14 +28,12 @@ public class EmployeConsole
 			menu.add(changerPrenom(employe));
 			menu.add(changerMail(employe));
 			menu.add(changerPassword(employe));
-//			menu.add(changerDateArrivee(employe));
-//			menu.add(changerDateDepart(employe));
+			menu.add(changerDateArrivee(employe));
+			menu.add(changerDateDepart(employe));
 			menu.add(supprimerEmploye(employe));
 			menu.addBack("q");
 			return menu;
 	}
-
-
 
 	private Option changerNom(final Employe employe)
 	{
@@ -69,6 +67,27 @@ public class EmployeConsole
 			employe.setPassword(getString("Nouveau mot de passe : "));
 		});
 	}
+
+	private Option changerDateDepart(Employe employe) 
+	{
+		return new Option("Changer la date de départ", "d", () -> 
+		{
+			String date = getString("Nouvelle date de départ (format JJ/MM/AAAA) : ");
+			employe.setDepart(date, employe.getDateArrivee());
+			System.out.println("La date de départ a été modifiée avec succès.");
+		});
+	}
+
+	private Option changerDateArrivee(Employe employe) 
+	{
+		return new Option("Changer la date d'arrivée", "a", () -> 
+		{
+			String date = getString("Nouvelle date d'arrivée (format JJ/MM/AAAA) : ");
+			employe.setArrivee(date, employe.getDateDepart());
+			System.out.println("La date d'arrivée a été modifiée avec succès.");
+		});
+	}
+	
 	private Option supprimerEmploye(final Employe employe) 
 	{
 		return new Option("supprimer", "r", () -> 
@@ -76,21 +95,5 @@ public class EmployeConsole
 			employe.remove();
 		});
 	}
-
-//	private Option changerDateDepart(Employe employe) 
-//	{
-//		return new Option("Changer la date d'arrivee", "z", () -> 
-//		{
-//			employe.setArrivee(getString("Nouvelle date d'entree : "));
-//		});
-//	}
-//
-//	private Option changerDateArrivee(Employe employe) 
-//	{
-//		return new Option("Changer la date de depart", "w", () -> 
-//		{
-//			employe.setDepart(getString("Nouvelle date de depart : "));
-//		});
-//	}
 	
 }

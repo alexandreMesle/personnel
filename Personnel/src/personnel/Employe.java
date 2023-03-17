@@ -119,6 +119,16 @@ public class Employe implements Serializable, Comparable<Employe>
 		this.mail = mail;
 	}
 
+	public void setArrivee(String date, LocalDate dateArrivee) {
+		// TODO Auto-generated method stub
+		 this.dateArrivee = dateArrivee ;
+	}
+
+	public void setDepart(String date, LocalDate dateDepart) {
+		// TODO Auto-generated method stub
+		this.dateDepart = dateDepart ;
+	}
+
 	/**
 	 * Retourne vrai ssi le password passé en paramètre est bien celui
 	 * de l'employé.
@@ -141,16 +151,6 @@ public class Employe implements Serializable, Comparable<Employe>
 	{
 		this.password= password;
 	}
-	
-//	public void setDepart(LocalDate dateDepart) 
-//	{
-//		this.dateDepart = dateDepart ;
-//	}
-//
-//	public void setArrivee(LocalDate dateArrivee) 
-//	{
-//		this.dateArrivee = dateArrivee ;
-//	}
 
 	/**
 	 * Retourne la ligue à laquelle l'employé est affecté.
@@ -200,8 +200,14 @@ public class Employe implements Serializable, Comparable<Employe>
 		return res + ")";
 	}
 
+	public LocalDate getDateDepart() {
+		// TODO Auto-generated method stub
+		return dateDepart;
+	}
 
-
-
+	public LocalDate getDateArrivee() {
+		// TODO Auto-generated method stub
+		return dateArrivee;
+	}
 	
 }
