@@ -19,8 +19,9 @@ public class Employe implements Serializable, Comparable<Employe>
 	private LocalDate date_arrive, date_depart;
 	private Ligue ligue;
 	private GestionPersonnel gestionPersonnel;
+	private int id;
 	
-	public Employe(GestionPersonnel gestionPersonnel, Ligue ligue, String nom, String prenom, String mail, String password, LocalDate arrive_en, LocalDate partit_en)
+	public Employe(GestionPersonnel gestionPersonnel, Ligue ligue, String nom, String prenom, String mail, String password, LocalDate arrive_en, LocalDate partit_en,int id)
 	{
 		this.gestionPersonnel = gestionPersonnel;
 		this.nom = nom;
@@ -30,6 +31,21 @@ public class Employe implements Serializable, Comparable<Employe>
 		this.ligue = ligue;
 		this.date_arrive = arrive_en;
 		this.date_depart = partit_en;
+		this.id = id;
+		
+	}
+	public Employe(GestionPersonnel gestionPersonnel, Ligue ligue, String nom, String prenom, String mail, String password, LocalDate arrive_en, LocalDate partit_en) throws SauvegardeImpossible
+	{
+		this.gestionPersonnel = gestionPersonnel;
+		this.nom = nom;
+		this.prenom = prenom;
+		this.password = password;
+		this.mail = mail;
+		this.ligue = ligue;
+		this.date_arrive = arrive_en;
+		this.date_depart = partit_en;
+		this.id = gestionPersonnel.insertEmploye(this);
+		
 	}
 	
 	/**
@@ -55,7 +71,13 @@ public class Employe implements Serializable, Comparable<Employe>
 	{
 		return gestionPersonnel.getRoot() == this;
 	}
-	
+	/**
+	 * Retourne l id de l employe.
+	 * @return id
+	 */
+	public int getId() {
+		return id;
+	}
 	/**
 	 * Retourne le nom de l'employé.
 	 * @return le nom de l'employé. 
@@ -71,9 +93,10 @@ public class Employe implements Serializable, Comparable<Employe>
 	 * @param nom le nouveau nom.
 	 */
 	
-	public void setNom(String nom)
+	public void setNom(String nom) throws SauvegardeImpossible
 	{
 		this.nom = nom;
+		gestionPersonnel.updateEmploye(this);
 	}
 
 	/**
@@ -91,9 +114,10 @@ public class Employe implements Serializable, Comparable<Employe>
 	 * @param prenom le nouveau prénom de l'employé. 
 	 */
 
-	public void setPrenom(String prenom)
+	public void setPrenom(String prenom) throws SauvegardeImpossible
 	{
 		this.prenom = prenom;
+		gestionPersonnel.updateEmploye(this,"prenom");
 	}
 
 	/**
@@ -111,9 +135,10 @@ public class Employe implements Serializable, Comparable<Employe>
 	 * @param mail le nouveau mail de l'employé.
 	 */
 
-	public void setMail(String mail)
+	public void setMail(String mail) throws SauvegardeImpossible
 	{
-		this.mail = mail;
+			gestionPersonnel.updateEmploye(this,"mail");
+
 	}
 
 	/**
@@ -134,11 +159,20 @@ public class Employe implements Serializable, Comparable<Employe>
 	 * @param password le nouveau password de l'employé. 
 	 */
 	
-	public void setPassword(String password)
+	public void setPassword(String password) throws SauvegardeImpossible
 	{
-		this.password= password;
+		this.password = password;
+		gestionPersonnel.updateEmploye(this,"password");
 	}
-
+	
+	/*
+	 * Retourne le password de l'employe>
+	 * @return le password de lemploye
+	 */
+	public String getPassword()
+	{
+		return this.password;
+	}
 	/**
 	 * Retourne la ligue à laquelle l'employé est affecté.
 	 * @return la ligue à laquelle l'employé est affecté.
@@ -164,7 +198,7 @@ public class Employe implements Serializable, Comparable<Employe>
 	// TODO: retirer depart si arrivé
 	/* affecte une nouvelle valeur a la date d'arrive
 	@param un objet LocalDate qui represente la nouvelle date d'arrive */
-	public void setArrive(LocalDate with_date) throws MauvaiseDate {
+	public void setArrive(LocalDate with_date) throws MauvaiseDate,SauvegardeImpossible {
 		
 		if ( this.date_arrive != null && with_date.isBefore(this.date_arrive) ) {
 			throw new MauvaiseDate("impossible de definir une date de d'arrive qui est avant l'ancienne date d'arrive");
@@ -175,12 +209,13 @@ public class Employe implements Serializable, Comparable<Employe>
 		}
 		
 		this.date_arrive = with_date;
+		gestionPersonnel.updateEmploye(this,"datearrive");
 	}
 
 	// TODO: check si depart < a arrivé
 	/* affecte une nouvelle valeur a la date depart
 	@param un objet LocalDate qui represente la nouvelle date de depart */
-	public void setDepart(LocalDate with_date) throws MauvaiseDate{
+	public void setDepart(LocalDate with_date) throws MauvaiseDate,SauvegardeImpossible{
 		
 		if ( this.date_arrive == null ) {
 			throw new MauvaiseDate("impossible de definir uen date de depart si il n'y a pas de date d'arrivé");
@@ -191,14 +226,15 @@ public class Employe implements Serializable, Comparable<Employe>
 		}
 		
 		this.date_depart = with_date;
+		gestionPersonnel.updateEmploye(this,"datedepart");
 	}
 	
 	// TODO: ajouter method pour ajouter depuis un string, throw si pas bon
-	public void setDepart(String with_date) throws DateTimeParseException, MauvaiseDate {
+	public void setDepart(String with_date) throws DateTimeParseException, MauvaiseDate,SauvegardeImpossible {
 		LocalDate date = LocalDate.parse(with_date);
 		this.setDepart(date);
 	}
-	public void setArrive(String with_date) throws MauvaiseDate {
+	public void setArrive(String with_date) throws MauvaiseDate,SauvegardeImpossible {
 		LocalDate date = LocalDate.parse(with_date);
 		this.setArrive(date);
 	}
@@ -217,9 +253,17 @@ public class Employe implements Serializable, Comparable<Employe>
 			if (estAdmin(getLigue()))
 				getLigue().setAdministrateur(root);
 			getLigue().remove(this);
+			try {
+				gestionPersonnel.deleteEmploye(this);
+			} catch (SauvegardeImpossible e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		else
+		{
 			throw new ImpossibleDeSupprimerRoot();
+		}
 	}
 
 	@Override
@@ -236,7 +280,7 @@ public class Employe implements Serializable, Comparable<Employe>
 	{ if(this.date_depart != null) {
 		
 	}
-		String res = nom + " " + prenom + " " + mail + " " + this.date_arrive +" ";
+		String res = nom + " " + prenom + " " + mail + " " + this.date_arrive +" "+id+" ";
 		if (this.date_depart != null) {
 			res += this.date_depart+" (";
 		}else {
@@ -248,4 +292,5 @@ public class Employe implements Serializable, Comparable<Employe>
 			res += ligue.toString();
 		return res + ")";
 	}
+
 }

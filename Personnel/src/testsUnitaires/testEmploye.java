@@ -26,7 +26,7 @@ class testEmployer
 	}
 	
 	@Test
-	void test_date_depart_bad_text() {
+	void test_date_depart_bad_text() throws SauvegardeImpossible {
 		LocalDate now = LocalDate.now();
 		Employe an_employer = new Employe(null, null, "bob", "", "", "toor", now, now);
 	    assertThrows(DateTimeParseException.class, () -> {
@@ -34,7 +34,7 @@ class testEmployer
 	    });
 	}
 	@Test
-	void test_date_arrive_bad_text() {
+	void test_date_arrive_bad_text() throws SauvegardeImpossible {
 		LocalDate now = LocalDate.now();
 		Employe an_employer = new Employe(null, null, "bob", "", "", "toor", now, now);	
 	    assertThrows(DateTimeParseException.class, () -> {
@@ -43,7 +43,7 @@ class testEmployer
 	}
 	
 	@Test
-	void test_date_depart_before() {
+	void test_date_depart_before() throws SauvegardeImpossible {
 		LocalDate now = LocalDate.now();
 		Employe an_employer = new Employe(null, null, "bob", "", "", "toor", now, now);
 	    assertThrows(MauvaiseDate.class, () -> {
@@ -51,7 +51,7 @@ class testEmployer
 	    });
 	}
 	@Test
-	void test_date_arrive_before() {
+	void test_date_arrive_before() throws SauvegardeImpossible {
 		LocalDate now = LocalDate.now();
 		Employe an_employer = new Employe(null, null, "bob", "", "", "toor", now, now);
 	    assertThrows(MauvaiseDate.class, () -> {
@@ -59,7 +59,7 @@ class testEmployer
 	    });
 	}
 	@Test
-	void test_date_depart_add_before_date_arrive() throws MauvaiseDate {
+	void test_date_depart_add_before_date_arrive() throws MauvaiseDate, SauvegardeImpossible {
 		LocalDate now = LocalDate.now();
 		Employe an_employer = new Employe(null, null, "bob", "", "", "toor", null, null);
 		an_employer.setArrive("2022-12-07");

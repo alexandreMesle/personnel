@@ -43,6 +43,7 @@ public class Ligue implements Serializable, Comparable<Ligue>
 		this.id = id;
 	}
 
+
 	/**
 	 * Retourne le nom de la ligue.
 	 * @return le nom de la ligue.
@@ -61,6 +62,12 @@ public class Ligue implements Serializable, Comparable<Ligue>
 	public void setNom(String nom)
 	{
 		this.nom = nom;
+		try {
+			gestionPersonnel.update(this);
+		} catch (SauvegardeImpossible e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -111,7 +118,19 @@ public class Ligue implements Serializable, Comparable<Ligue>
 
 	public Employe addEmploye(String nom, String prenom, String mail, String password, LocalDate with_date)
 	{
-		Employe employe = new Employe(this.gestionPersonnel, this, nom, prenom, mail, password, with_date, null);
+		Employe employe = new Employe(this.gestionPersonnel, this, nom, prenom, mail, password, with_date, null,-1);
+		employes.add(employe);
+		try {
+			this.gestionPersonnel.insertEmploye(employe);
+		} catch (SauvegardeImpossible e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return employe;
+	}
+	public Employe addEmploye(String nom, String prenom, String mail, String password, LocalDate with_date,int id) throws SauvegardeImpossible
+	{
+		Employe employe = new Employe(this.gestionPersonnel, this, nom, prenom, mail, password, with_date, null,id);
 		employes.add(employe);
 		return employe;
 	}
@@ -126,9 +145,15 @@ public class Ligue implements Serializable, Comparable<Ligue>
 	 * de la ligue.
 	 */
 	
-	public void remove()
+	public void remove() 
 	{
 		gestionPersonnel.remove(this);
+		try {
+			gestionPersonnel.delete(this);
+		} catch (SauvegardeImpossible e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 
@@ -142,5 +167,9 @@ public class Ligue implements Serializable, Comparable<Ligue>
 	public String toString()
 	{
 		return nom;
+	}
+
+	public int getId() {
+		return id;
 	}
 }
