@@ -19,6 +19,7 @@ public class Employe implements Serializable, Comparable<Employe>
 	private GestionPersonnel gestionPersonnel;
 	private LocalDate dateArrivee;
 	private LocalDate dateDepart;
+	private int id;
 	
 	
 	Employe(GestionPersonnel gestionPersonnel, Ligue ligue, String nom, String prenom, String mail, String password, LocalDate dateArrivee, LocalDate dateDepart)
@@ -141,7 +142,10 @@ public class Employe implements Serializable, Comparable<Employe>
 	{
 		return this.password.equals(password);
 	}
-
+	public String getPassword() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	/**
 	 * Change le password de l'employé.
 	 * @param password le nouveau password de l'employé. 
@@ -208,6 +212,17 @@ public class Employe implements Serializable, Comparable<Employe>
 	public LocalDate getDateArrivee() {
 		// TODO Auto-generated method stub
 		return dateArrivee;
+	}
+
+
+
+	public int getId() {
+		return id;
+		// TODO Auto-generated method stub
+	}
+	
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 }

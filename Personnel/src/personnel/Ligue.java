@@ -22,6 +22,7 @@ public class Ligue implements Serializable, Comparable<Ligue>
 	private SortedSet<Employe> employes;
 	private Employe administrateur;
 	private GestionPersonnel gestionPersonnel;
+	public int getId;
 	
 	/**
 	 * Crée une ligue.
@@ -108,10 +109,11 @@ public class Ligue implements Serializable, Comparable<Ligue>
 	 * @param password le password de l'employé.
 	 * @param Depart 
 	 * @param Arrivee 
+	 * @param id2 
 	 * @return l'employé créé. 
 	 */
 
-	public Employe addEmploye(String nom, String prenom, String mail, String password, LocalDate Arrivee, LocalDate Depart)
+	public Employe addEmploye(String nom, String prenom, String mail, String password, LocalDate Arrivee, LocalDate Depart, int id2)
 	{
 		Employe employe = new Employe(this.gestionPersonnel, this, nom, prenom, mail, password, Depart, Arrivee);
 		employes.add(employe);
@@ -145,4 +147,10 @@ public class Ligue implements Serializable, Comparable<Ligue>
 	{
 		return nom;
 	}
+
+	public int getId() {
+		// TODO Auto-generated method stub
+		return id;
+	}
+
 }

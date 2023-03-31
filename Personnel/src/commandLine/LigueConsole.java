@@ -114,7 +114,7 @@ public class LigueConsole
 	                }
 	                System.out.println("La date de départ doit être postérieure ou égale à la date d'arrivée.");
 	            }
-	            ligue.addEmploye(nom, prenom, mail, password, Arrivee, Depart);
+	            ligue.addEmploye(nom, prenom, mail, password, Arrivee, Depart, 0);
 	        }
 	    );
 	}
