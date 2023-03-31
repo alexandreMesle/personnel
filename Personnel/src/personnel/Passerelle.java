@@ -9,5 +9,5 @@ public interface Passerelle
 	public void delete(Ligue ligue) throws SauvegardeImpossible;
 	public void deleteEmploye(Employe employe) throws SauvegardeImpossible;
 	public int update(Ligue ligue) throws SauvegardeImpossible;
-	public int updateEmploye(Employe employe,String collumnName) throws SauvegardeImpossible;
+	public int updateEmploye(Employe employe,String columnName,String value) throws SauvegardeImpossible;
 }

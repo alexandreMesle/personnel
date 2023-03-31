@@ -123,9 +123,9 @@ public class GestionPersonnel implements Serializable
 	{
 		return passerelle.update(ligue);
 	}
-	int updateEmploye(Employe employe) throws SauvegardeImpossible
+	int updateEmploye(Employe employe,String columnName,String value) throws SauvegardeImpossible
 	{
-		passerelle.updateEmploye(employe);
+		passerelle.updateEmploye(employe,columnName,value);
 		return 0;
 		
 	}

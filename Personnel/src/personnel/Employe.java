@@ -96,7 +96,7 @@ public class Employe implements Serializable, Comparable<Employe>
 	public void setNom(String nom) throws SauvegardeImpossible
 	{
 		this.nom = nom;
-		gestionPersonnel.updateEmploye(this);
+		gestionPersonnel.updateEmploye(this,"nom",this.getNom());
 	}
 
 	/**
@@ -117,7 +117,7 @@ public class Employe implements Serializable, Comparable<Employe>
 	public void setPrenom(String prenom) throws SauvegardeImpossible
 	{
 		this.prenom = prenom;
-		gestionPersonnel.updateEmploye(this,"prenom");
+		gestionPersonnel.updateEmploye(this,"premom",this.getPrenom());
 	}
 
 	/**
@@ -137,7 +137,7 @@ public class Employe implements Serializable, Comparable<Employe>
 
 	public void setMail(String mail) throws SauvegardeImpossible
 	{
-			gestionPersonnel.updateEmploye(this,"mail");
+			gestionPersonnel.updateEmploye(this,"mail",this.getMail());
 
 	}
 
@@ -162,7 +162,7 @@ public class Employe implements Serializable, Comparable<Employe>
 	public void setPassword(String password) throws SauvegardeImpossible
 	{
 		this.password = password;
-		gestionPersonnel.updateEmploye(this,"password");
+		gestionPersonnel.updateEmploye(this,"password",this.getPassword());
 	}
 	
 	/*
@@ -209,7 +209,7 @@ public class Employe implements Serializable, Comparable<Employe>
 		}
 		
 		this.date_arrive = with_date;
-		gestionPersonnel.updateEmploye(this,"datearrive");
+		gestionPersonnel.updateEmploye(this,"daterrive",this.getArrive().toString());
 	}
 
 	// TODO: check si depart < a arrivé
@@ -226,7 +226,7 @@ public class Employe implements Serializable, Comparable<Employe>
 		}
 		
 		this.date_depart = with_date;
-		gestionPersonnel.updateEmploye(this,"datedepart");
+		gestionPersonnel.updateEmploye(this,"datedepart",this.getDepart().toString());
 	}
 	
 	// TODO: ajouter method pour ajouter depuis un string, throw si pas bon

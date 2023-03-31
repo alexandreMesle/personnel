@@ -19,8 +19,8 @@ public class JDBC implements Passerelle
 		try
 		{
 			System.out.println("new JDBC");
-			Class.forName(CredentialsExample.getDriverClassName());
-			connection = DriverManager.getConnection(CredentialsExample.getUrl(), CredentialsExample.getUser(), CredentialsExample.getPassword());
+			Class.forName(Credentials.getDriverClassName());
+			connection = DriverManager.getConnection(Credentials.getUrl(), Credentials.getUser(), Credentials.getPassword());
 			System.out.println(this);
 		}
 		catch (ClassNotFoundException e)
@@ -191,11 +191,11 @@ public class JDBC implements Passerelle
 	}
 
 	@Override
-	public int updateEmploye(Employe employe,String columnName) throws SauvegardeImpossible {
+	public int updateEmploye(Employe employe,String columnName,String value) throws SauvegardeImpossible {
 		PreparedStatement instruction;
 		try {
-			instruction = connection.prepareStatement("Update employe SET ? = ? WHERE `id` = ?",Statement.RETURN_GENERATED_KEYS);
-			instruction.setString(1,employe.getNom());
+			instruction = connection.prepareStatement("Update employe SET "+columnName+" = ? WHERE `id` = ?",Statement.RETURN_GENERATED_KEYS);
+			instruction.setString(1,value);
 			instruction.setInt(2,employe.getId());
 			instruction.executeUpdate();
 	
