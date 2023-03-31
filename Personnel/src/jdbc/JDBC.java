@@ -132,7 +132,7 @@ public class JDBC implements Passerelle
 		try {
 			PreparedStatement instruction;
 			instruction = connection.prepareStatement(
-					"INSERT INTO employe (nom, prenom, mail, password, date_arrivee, date_depart,habilitation,id_ligue) VALUES (?,?,?,?,?,?,?,?)",
+					"INSERT INTO employe (id_employe, nom, prenom, mail, password, date_arrivee, date_depart,habilitation,id_ligue) VALUES (?,?,?,?,?,?,?,?)",
 					Statement.RETURN_GENERATED_KEYS);
 			instruction.setString(1, employe.getNom());
 			instruction.setString(2, employe.getPrenom());
