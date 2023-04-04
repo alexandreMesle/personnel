@@ -43,7 +43,7 @@ public class JDBC implements Passerelle
 			ResultSet ligues = instruction.executeQuery(requete);
 			
 			//2 boucles imbriquées
-			while (ligues.next())
+			while (ligues.next()) {
 				gestionPersonnel.addLigue(ligues.getInt("id_ligue"), ligues.getString("nom_ligue"));
 			 PreparedStatement req = connection.prepareStatement("SELECT * FROM employé WHERE id_ligue = ?");
              req.setInt(1, ligues.getInt("id_ligue"));
@@ -62,6 +62,7 @@ public class JDBC implements Passerelle
                 
              }
 			
+		}
 		}
 		catch (SQLException e)
 		{
