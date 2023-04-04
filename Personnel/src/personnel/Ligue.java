@@ -120,6 +120,8 @@ public class Ligue implements Serializable, Comparable<Ligue>
 		return employe;
 	}
 	
+	//TODO Faire une 2eme addEmployee pour JDBC
+	
 	void remove(Employe employe)
 	{
 		employes.remove(employe);
