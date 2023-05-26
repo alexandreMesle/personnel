@@ -69,6 +69,7 @@ public class Serialization implements personnel.Passerelle
 		// TODO Auto-generated method stub
 		
 	}
+	
 
 	@Override
 	public void update(Employe employé) throws SauvegardeImpossible {
@@ -102,6 +103,12 @@ public class Serialization implements personnel.Passerelle
 
 	@Override
 	public void update(Employe employe, String column) throws SauvegardeImpossible {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void update1(Ligue ligue) throws SauvegardeImpossible {
 		// TODO Auto-generated method stub
 		
 	}

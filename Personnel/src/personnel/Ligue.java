@@ -1,6 +1,7 @@
 package personnel;
 
 import java.io.Serializable;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.SortedSet;
@@ -120,8 +121,11 @@ public class Ligue implements Serializable, Comparable<Ligue>
 		return employe;
 	}
 	
-	//TODO Faire une 2eme addEmployee pour JDBC
-	
+	public Employe addEmploye(String nom, String prenom, String mail, String password, LocalDate date_arrivee,LocalDate date_depart) {
+		Employe employe = new Employe(this.gestionPersonnel, this, nom, prenom, mail, password, date_arrivee, date_depart );
+        employes.add(employe);
+        return employe;
+	}	
 	void remove(Employe employe)
 	{
 		employes.remove(employe);
@@ -154,5 +158,13 @@ public class Ligue implements Serializable, Comparable<Ligue>
 		// TODO Auto-generated method stub
 		return id;
 	}
-
+	public void update() throws SQLException
+	{
+		try { /* TODO pas d'entre sortie enléve try catch*/
+			gestionPersonnel.update(this);
+		} catch (SauvegardeImpossible e) {
+			
+			e.printStackTrace();
+		}
+	}
 }

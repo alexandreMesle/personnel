@@ -1,6 +1,7 @@
 package personnel;
 
 import java.io.Serializable;
+import java.sql.SQLException;
 import java.time.LocalDate;
 
 /**
@@ -32,8 +33,21 @@ public class Employe implements Serializable, Comparable<Employe>
 		this.ligue = ligue;
 		this.dateArrivee = dateArrivee;
 		this.dateDepart = dateDepart;
+	}
+	
+	Employe(GestionPersonnel gestionPersonnel, Ligue ligue, String nom, String prenom, String mail, String password, LocalDate dateArrivee, LocalDate dateDepart, int id)
+	{
+		this.nom = nom;
+		this.prenom = prenom;
+		this.password = password;
+		this.mail = mail;
+		this.ligue = ligue;
+		this.dateArrivee = dateArrivee;
+		this.dateDepart = dateDepart;
 		
-		
+			
+		this.gestionPersonnel = gestionPersonnel;
+		this.id = id;
 	}
 	
 	/**
@@ -49,7 +63,9 @@ public class Employe implements Serializable, Comparable<Employe>
 	{
 		return ligue.getAdministrateur() == this;
 	}
-	
+	 public int getid() {
+		 return this.id;
+	 }
 	/**
 	 * Retourne vrai ssi l'employé est le root.
 	 * @return vrai ssi l'employé est le root.
@@ -58,6 +74,41 @@ public class Employe implements Serializable, Comparable<Employe>
 	public boolean estRoot()
 	{
 		return gestionPersonnel.getRoot() == this;
+	}
+	public LocalDate getdateArrivee() 
+	{
+		return dateArrivee;
+	}
+	
+	public void setDateArrivee(LocalDate dateArrivee) throws DateImpossible
+	{
+		if(dateArrivee != null && dateDepart != null && dateArrivee.isBefore(dateDepart))
+			throw new DateImpossible();
+		else 
+		{
+			this.dateArrivee = dateArrivee;
+		}
+			
+	}
+	
+	
+	public LocalDate getdateDepart() 
+	{
+		return dateDepart;
+	}
+	
+	public void setDateDepart(LocalDate dateDepart) throws DateImpossible
+	{
+		if(dateArrivee != null && dateDepart != null && dateDepart.isAfter(dateArrivee))
+			throw new DateImpossible();
+		else 
+		{
+			this.dateDepart = dateDepart;
+		}
+			
+	}
+	public int getIdLigue() {
+		return this.ligue.getId();
 	}
 	
 	/**
@@ -144,7 +195,7 @@ public class Employe implements Serializable, Comparable<Employe>
 	}
 	public String getPassword() {
 		// TODO Auto-generated method stub
-		return null;
+		return this.password;
 	}
 	/**
 	 * Change le password de l'employé.
@@ -165,6 +216,27 @@ public class Employe implements Serializable, Comparable<Employe>
 	{
 		return ligue;
 	}
+	
+	public int getType() {
+		/* TODO if pour savoir le type */
+		
+		int typ = 0;
+		
+		if (this.estRoot()) 
+		{
+			typ = 2;
+		}
+		else if (this.estAdmin(ligue)) // admin
+		{
+			typ = 1;
+		}
+		else // employé simple
+		{
+			typ = 0;
+		}
+	
+		return typ;
+	}
 
 	/**
 	 * Supprime l'employé. Si celui-ci est un administrateur, le root
@@ -183,7 +255,21 @@ public class Employe implements Serializable, Comparable<Employe>
 		else
 			throw new ImpossibleDeSupprimerRoot();
 	}
-
+	public void update() throws SQLException
+	{
+		try {
+			gestionPersonnel.update(this);
+		} catch (SauvegardeImpossible e) {
+			
+			e.printStackTrace();
+		}
+	}
+	
+	public GestionPersonnel getGestion() {
+		return gestionPersonnel;
+	}
+	
+	
 	@Override
 	public int compareTo(Employe autre)
 	{
@@ -202,16 +288,6 @@ public class Employe implements Serializable, Comparable<Employe>
 		else
 			res += ligue.toString();
 		return res + ")";
-	}
-
-	public LocalDate getDateDepart() {
-		// TODO Auto-generated method stub
-		return dateDepart;
-	}
-
-	public LocalDate getDateArrivee() {
-		// TODO Auto-generated method stub
-		return dateArrivee;
 	}
 
 

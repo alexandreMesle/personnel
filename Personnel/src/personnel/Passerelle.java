@@ -14,5 +14,6 @@ public interface Passerelle
 	void delete(Employe employe) throws SauvegardeImpossible;
 	void delete(Ligue ligue) throws SauvegardeImpossible;
 	void update(Employe employe, String column) throws SauvegardeImpossible;
+	void update1(Ligue ligue) throws SauvegardeImpossible;
 
 }

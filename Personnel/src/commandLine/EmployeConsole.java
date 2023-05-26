@@ -73,7 +73,7 @@ public class EmployeConsole
 		return new Option("Changer la date de départ", "d", () -> 
 		{
 			String date = getString("Nouvelle date de départ (format JJ/MM/AAAA) : ");
-			employe.setDepart(date, employe.getDateArrivee());
+			employe.setDepart(date, employe.getdateArrivee());
 			System.out.println("La date de départ a été modifiée avec succès.");
 		});
 	}
@@ -83,7 +83,7 @@ public class EmployeConsole
 		return new Option("Changer la date d'arrivée", "a", () -> 
 		{
 			String date = getString("Nouvelle date d'arrivée (format JJ/MM/AAAA) : ");
-			employe.setArrivee(date, employe.getDateDepart());
+			employe.setArrivee(date, employe.getdateDepart());
 			System.out.println("La date d'arrivée a été modifiée avec succès.");
 		});
 	}
