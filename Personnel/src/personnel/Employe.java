@@ -63,7 +63,7 @@ public class Employe implements Serializable, Comparable<Employe>
 	{
 		return ligue.getAdministrateur() == this;
 	}
-	 public int getid() {
+	 public int getId() {
 		 return this.id;
 	 }
 	/**

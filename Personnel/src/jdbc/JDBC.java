@@ -124,13 +124,9 @@ public class JDBC implements Passerelle
 			throw new SauvegardeImpossible(exception);
 		}
 	}
-<<<<<<< Updated upstream
-=======
-	
 
-	
 	@Override
-	public void update(Employe employe, String column) throws SauvegardeImpossible {
+	public void update(Employe employe) throws SauvegardeImpossible {
 		try {
 			PreparedStatement instruction;
 			instruction = connection.prepareStatement(
@@ -193,43 +189,9 @@ public class JDBC implements Passerelle
 		}		
 		
 	}
->>>>>>> Stashed changes
 
-	@Override
-	public void update(Employe employe) throws SauvegardeImpossible {
-		
-		try {
-			PreparedStatement instruction;
-			instruction = connection.prepareStatement("UPDATE employe SET nom = '"+ employe.getNom()+
-					"', prénom = '"+employe.getPrenom()+"',  mail = '"+employe.getMail()+"',  password ='"+
-					employe.getPassword()+"', habilitation = "+employe.getType() +" WHERE id_employee = "+ employe.getid() +" ", Statement.RETURN_GENERATED_KEYS);
-			instruction.executeUpdate();
-		} catch (SQLException e) {
-			
-			throw new SauvegardeImpossible(e);
-		}
-		
-	
-	}
-	
 
-<<<<<<< Updated upstream
-	@Override
-	public void deleteEmploye(Employe employe) throws SauvegardeImpossible {
-		try
-		{
-			PreparedStatement instruction;
-			instruction = connection.prepareStatement("DELETE FROM employe WHERE id_employee = ?");
-			instruction.setInt(1, employe.getid());
-			instruction.executeUpdate();
-		}
-		catch (SQLException e) 
-		{
 
-			throw new SauvegardeImpossible(e);
-		}
-		
-	}
 	@Override
 	public int insert(Ligue ligue) throws SauvegardeImpossible 
 	{
@@ -247,67 +209,6 @@ public class JDBC implements Passerelle
 		{
 			exception.printStackTrace();
 			throw new SauvegardeImpossible(exception);
-		}		
-	}
-	@Override
-	public void deleteLigue(Ligue ligue) throws SauvegardeImpossible {
-		try
-		{
-			PreparedStatement tableLigue;
-			tableLigue = connection.prepareStatement("DELETE FROM ligue WHERE id_ligue = ?");
-			tableLigue.setInt(1, ligue.getId());
-			tableLigue.executeUpdate();;
-		}
-		catch (SQLException e) 
-		{
-			throw new SauvegardeImpossible(e);
-		}
-		
-	}
-=======
-//	@Override
-//	public void deleteEmploye(Employe employe) throws SauvegardeImpossible {
-//		try
-//		{
-//			PreparedStatement instruction;
-//			instruction = connection.prepareStatement("DELETE FROM employe WHERE id_employee = ?");
-//			instruction.setInt(1, employe.getid());
-//			instruction.executeUpdate();
-//		}
-//		catch (SQLException e) 
-//		{
-//
-//			throw new SauvegardeImpossible(e);
-//		}
-//		
-//	}
-//
-//	@Override
-//	public void deleteLigue(Ligue ligue) throws SauvegardeImpossible {
-//		try
-//		{
-//			PreparedStatement tableLigue;
-//			tableLigue = connection.prepareStatement("DELETE FROM ligue WHERE id_ligue = ?");
-//			tableLigue.setInt(1, ligue.getId());
-//			tableLigue.executeUpdate();;
-//		}
-//		catch (SQLException e) 
-//		{
-//			throw new SauvegardeImpossible(e);
-//		}
-//		
-//	}
->>>>>>> Stashed changes
-
-	@Override
-	public void update(Ligue ligue) throws SauvegardeImpossible {
-		try {
-			PreparedStatement instruction;
-			instruction = connection.prepareStatement("UPDATE ligue SET nom_ligue = '"+ligue.getNom()+"' WHERE id_ligue = "+ligue.getId()+" ", Statement.RETURN_GENERATED_KEYS);
-			instruction.executeUpdate();
-		} catch (SQLException e) {
-			
-			throw new SauvegardeImpossible(e);
 		}		
 	}
 }
