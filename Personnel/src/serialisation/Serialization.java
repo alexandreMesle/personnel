@@ -74,6 +74,7 @@ public class Serialization implements personnel.Passerelle
 	}
 
 	@Override
+<<<<<<< Updated upstream
 	public void deleteEmploye(Employe employe) throws SauvegardeImpossible {
 		// TODO Auto-generated method stub
 		
@@ -85,6 +86,12 @@ public class Serialization implements personnel.Passerelle
 		
 	}
 
+=======
+	public void delete(Employe employe) throws SauvegardeImpossible {
+		// TODO Auto-generated method stub
+		
+	}
+>>>>>>> Stashed changes
 
 
 
