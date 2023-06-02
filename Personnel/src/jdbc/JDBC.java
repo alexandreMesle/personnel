@@ -130,7 +130,7 @@ public class JDBC implements Passerelle
 		try {
 			PreparedStatement instruction;
 			instruction = connection.prepareStatement(
-					"UPDATE employe SET nom = (?), prenom = (?), mail = (?), password = (?), date_arrivee = (?), date_depart = (?), habilitation(?) = (?) WHERE id_employe = (?)");
+					"UPDATE employe SET nom = (?), prenom = (?), mail = (?), password = (?), date_arrivee = (?), date_depart = (?), habilitation(?) = (?) WHERE id_employee = (?)");
 			instruction.setString(1, employe.getNom());
 			instruction.setString(2, employe.getPrenom());
 			instruction.setString(3, employe.getMail());
@@ -166,7 +166,7 @@ public class JDBC implements Passerelle
 	public void delete(Employe employe) throws SauvegardeImpossible {
 		try {
 			PreparedStatement instruction;
-			instruction = connection.prepareStatement("DELETE FROM employe WHERE id_employe = ?");
+			instruction = connection.prepareStatement("DELETE FROM employe WHERE id_employee = ?");
 			instruction.setInt(1, employe.getId());
 			instruction.executeUpdate();
 

@@ -148,9 +148,14 @@ public class Ligue implements Serializable, Comparable<Ligue>
 	{
 		return getNom().compareTo(autre.getNom());
 	}
-	public void remove() throws SauvegardeImpossible
+	public void remove()
 	{
-		gestionPersonnel.remove(this);
+		try {
+			gestionPersonnel.remove(this);
+		} catch (SauvegardeImpossible e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	public void removeAdmin()
 	{

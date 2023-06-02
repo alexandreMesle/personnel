@@ -166,12 +166,7 @@ public class LigueConsole
 
 	private Option supprimer(Ligue ligue)
 	{
-		return new Option("Supprimer", "d", () -> {try {
-			ligue.remove();
-		} catch (SauvegardeImpossible e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		return new Option("Supprimer", "d", () -> {ligue.remove();
 		});
 	}
 	
