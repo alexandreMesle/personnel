@@ -158,15 +158,9 @@ public class Ligue implements Serializable, Comparable<Ligue>
 		// TODO Auto-generated method stub
 		return id;
 	}
-	
-	public void removeAdmin()
-	{
-		administrateur = gestionPersonnel.getRoot();
-	}
-	
 	public void update() throws SQLException
 	{
-		try {
+		try { /* TODO pas d'entre sortie enléve try catch*/
 			gestionPersonnel.update(this);
 		} catch (SauvegardeImpossible e) {
 			
