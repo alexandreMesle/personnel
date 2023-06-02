@@ -29,9 +29,10 @@ public class GestionPersonnel implements Serializable
 	 * Retourne l'unique instance de cette classe.
 	 * Crée cet objet s'il n'existe déjà.
 	 * @return l'unique objet de type {@link GestionPersonnel}.
+	 * @throws SauvegardeImpossible 
 	 */
 	
-	public static GestionPersonnel getGestionPersonnel()
+	public static GestionPersonnel getGestionPersonnel() throws SauvegardeImpossible
 	{
 		if (gestionPersonnel == null)
 		{
@@ -94,28 +95,29 @@ public class GestionPersonnel implements Serializable
 		return ligue;
 	}
 
-	void remove(Ligue ligue)
+	public void remove(Ligue ligue) throws SauvegardeImpossible
 	{
+		gestionPersonnel.delete(ligue);
 		ligues.remove(ligue);
 	}
 	
-	int insert(Ligue ligue) throws SauvegardeImpossible
+	public int insert(Ligue ligue) throws SauvegardeImpossible
 	{
 		return passerelle.insert(ligue);
 	}
 	
-	int insert(Employe employe) throws SauvegardeImpossible
+	public int insert(Employe employe) throws SauvegardeImpossible
     {
  
         return passerelle.insert(employe);
         
     }
 	
-	void update(Ligue ligue) throws SauvegardeImpossible
+	public void update(Ligue ligue) throws SauvegardeImpossible
 	{
 		passerelle.update(ligue);
 	}
-	void update(Employe employe) throws SauvegardeImpossible
+	public void update(Employe employe) throws SauvegardeImpossible
 	{
 		passerelle.update(employe);
 	}
@@ -128,12 +130,13 @@ public class GestionPersonnel implements Serializable
 	{
 		return root;
 	}
-	void delete(Employe employe) throws SauvegardeImpossible
+	public void delete(Employe employe) throws SauvegardeImpossible
 	{
 			passerelle.deleteEmploye(employe);	
 	}
-	void delete(Ligue ligue) throws SauvegardeImpossible
+	public void delete(Ligue ligue) throws SauvegardeImpossible
 	{
 			passerelle.deleteLigue(ligue);    /* Surcharge pour les deux méthodes delete */
 	}
+	
 }

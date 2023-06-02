@@ -160,7 +160,6 @@ public class Employe implements Serializable, Comparable<Employe>
 	{
 		return mail;
 	}
-	
 	/**
 	 * Change le mail de l'employé.
 	 * @param mail le nouveau mail de l'employé.
@@ -237,7 +236,6 @@ public class Employe implements Serializable, Comparable<Employe>
 	
 		return typ;
 	}
-
 	/**
 	 * Supprime l'employé. Si celui-ci est un administrateur, le root
 	 * récupère les droits d'administration sur sa ligue.
@@ -269,7 +267,6 @@ public class Employe implements Serializable, Comparable<Employe>
 		return gestionPersonnel;
 	}
 	
-	
 	@Override
 	public int compareTo(Employe autre)
 	{
@@ -290,15 +287,5 @@ public class Employe implements Serializable, Comparable<Employe>
 		return res + ")";
 	}
 
-
-
-	public int getId() {
-		return id;
-		// TODO Auto-generated method stub
-	}
-	
-	public void setId(int id) {
-		this.id = id;
-	}
 	
 }

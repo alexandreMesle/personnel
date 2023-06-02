@@ -74,7 +74,9 @@ public class Ligue implements Serializable, Comparable<Ligue>
 	{
 		return administrateur;
 	}
-
+	public int getId() {
+		return this.id;
+	}
 	/**
 	 * Fait de administrateur l'administrateur de la ligue.
 	 * Lève DroitsInsuffisants si l'administrateur n'est pas 
@@ -136,34 +138,20 @@ public class Ligue implements Serializable, Comparable<Ligue>
 	 * de la ligue.
 	 */
 	
-	public void remove()
-	{
-		gestionPersonnel.remove(this);
-	}
-	
 
 	@Override
 	public int compareTo(Ligue autre)
 	{
 		return getNom().compareTo(autre.getNom());
 	}
-	
-	@Override
-	public String toString()
+	public void remove() throws SauvegardeImpossible
 	{
-		return nom;
+		gestionPersonnel.remove(this);
 	}
-
-	public int getId() {
-		// TODO Auto-generated method stub
-		return id;
-	}
-	
 	public void removeAdmin()
 	{
 		administrateur = gestionPersonnel.getRoot();
 	}
-	
 	public void update() throws SQLException
 	{
 		try {
@@ -173,4 +161,11 @@ public class Ligue implements Serializable, Comparable<Ligue>
 			e.printStackTrace();
 		}
 	}
+	@Override
+	public String toString()
+	{
+		return nom;
+	}	
+	
+	
 }

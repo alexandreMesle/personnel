@@ -58,11 +58,7 @@ public class Serialization implements personnel.Passerelle
 		return 0;
 	}
 
-	@Override
-	public int insert1(Ligue ligue) throws SauvegardeImpossible {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+
 
 	@Override
 	public void update(Ligue ligue) throws SauvegardeImpossible {
@@ -89,27 +85,7 @@ public class Serialization implements personnel.Passerelle
 		
 	}
 
-	@Override
-	public void delete(Employe employe) throws SauvegardeImpossible {
-		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
-	public void delete(Ligue ligue) throws SauvegardeImpossible {
-		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
-	public void update(Employe employe, String column) throws SauvegardeImpossible {
-		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
-	public void update1(Ligue ligue) throws SauvegardeImpossible {
-		// TODO Auto-generated method stub
-		
-	}
 }

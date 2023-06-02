@@ -2,6 +2,8 @@ package commandLine;
 
 import static commandLineMenus.rendering.examples.util.InOut.getString;
 
+import java.sql.SQLException;
+
 import commandLineMenus.ListOption;
 import commandLineMenus.Menu;
 import commandLineMenus.Option;
@@ -31,6 +33,7 @@ public class EmployeConsole
 			menu.add(changerDateArrivee(employe));
 			menu.add(changerDateDepart(employe));
 			menu.add(supprimerEmploye(employe));
+			menu.add(MetAdmin(employe));
 			menu.addBack("q");
 			return menu;
 	}
@@ -62,10 +65,10 @@ public class EmployeConsole
 	
 	private Option changerPassword(final Employe employe)
 	{
-		return new Option("Changer le mot de passe", "x", () -> 
-		{
-			employe.setPassword(getString("Nouveau mot de passe : "));
-		});
+		return new Option("Changer le password", "x", () -> {
+			employe.setPassword(getString("Nouveau password : "));
+			
+			});
 	}
 
 	private Option changerDateDepart(Employe employe) 
@@ -95,5 +98,10 @@ public class EmployeConsole
 			employe.remove();
 		});
 	}
-	
+	private Option MetAdmin(final Employe employe) {
+		Ligue ligue = employe.getLigue();
+		return new Option("Met admin de la ligue", "k", () -> {
+			ligue.setAdministrateur(employe);
+			});
+	}
 }

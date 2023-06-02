@@ -7,7 +7,7 @@ import personnel.*;
 
 class testLigue 
 {
-	GestionPersonnel gestionPersonnel = GestionPersonnel.getGestionPersonnel();
+	GestionPersonnel gestionPersonnel;
 	
 	@Test
 	void createLigue() throws SauvegardeImpossible
