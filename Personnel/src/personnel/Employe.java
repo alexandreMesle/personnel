@@ -44,6 +44,8 @@ public class Employe implements Serializable, Comparable<Employe>
 		this.ligue = ligue;
 		this.dateArrivee = dateArrivee;
 		this.dateDepart = dateDepart;
+		
+			
 		this.gestionPersonnel = gestionPersonnel;
 		this.id = id;
 	}
@@ -75,7 +77,7 @@ public class Employe implements Serializable, Comparable<Employe>
 	}
 	public LocalDate getdateArrivee() 
 	{
-		return dateArrivee;
+	    return dateArrivee != null ? dateArrivee : LocalDate.now();
 	}
 	
 	public void setDateArrivee(LocalDate dateArrivee) throws DateImpossible
@@ -84,7 +86,7 @@ public class Employe implements Serializable, Comparable<Employe>
 			throw new DateImpossible();
 		else 
 		{
-			this.dateArrivee = dateArrivee;
+			this.dateArrivee = dateArrivee != null ? dateArrivee : LocalDate.now();
 		}
 			
 	}
@@ -92,7 +94,7 @@ public class Employe implements Serializable, Comparable<Employe>
 	
 	public LocalDate getdateDepart() 
 	{
-		return dateDepart;
+	    return dateDepart != null ? dateDepart : LocalDate.now();
 	}
 	
 	public void setDateDepart(LocalDate dateDepart) throws DateImpossible

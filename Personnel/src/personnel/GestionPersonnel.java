@@ -1,5 +1,6 @@
 package personnel;
 
+
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.SortedSet;
@@ -51,6 +52,8 @@ public class GestionPersonnel implements Serializable
 		gestionPersonnel = this;
 	}
 	
+
+    
 	public void sauvegarder() throws SauvegardeImpossible
 	{
 		passerelle.sauvegarderGestionPersonnel(this);
@@ -133,6 +136,7 @@ public class GestionPersonnel implements Serializable
 	public void delete(Employe employe) throws SauvegardeImpossible
 	{
 			passerelle.delete(employe);	
+			
 	}
 	public void delete(Ligue ligue) throws SauvegardeImpossible
 	{

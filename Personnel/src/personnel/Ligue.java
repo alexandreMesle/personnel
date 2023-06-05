@@ -120,21 +120,29 @@ public class Ligue implements Serializable, Comparable<Ligue>
 	 * @return l'employé créé. 
 	 */
 
-	public Employe addEmploye(String nom, String prenom, String mail, String password, LocalDate Arrivee, LocalDate Depart, int id2)
-	{
-		Employe employe = new Employe(this.gestionPersonnel, this, nom, prenom, mail, password, Depart, Arrivee);
-		employes.add(employe);
-		return employe;
+	public Employe addEmploye(String nom, String prenom, String mail, String password, LocalDate Arrivee, LocalDate Depart, int id2) {
+	    Employe employe = new Employe(this.gestionPersonnel, this, nom, prenom, mail, password, Depart, Arrivee);
+	    employes.add(employe);
+	    try {
+			gestionPersonnel.insert(employe);
+			
+		} catch (SauvegardeImpossible e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} // Insérer l'employé dans la base de données
+	    return employe;
 	}
 	
 	public Employe addEmploye(String nom, String prenom, String mail, String password, LocalDate date_arrivee,LocalDate date_depart) {
-		Employe employe = new Employe(this.gestionPersonnel, this, nom, prenom, mail, password, date_arrivee, date_depart );
+		Employe employe = new Employe(this.gestionPersonnel, this, nom, prenom, mail, password, date_arrivee != null ? date_arrivee : LocalDate.now(), date_depart != null ? date_depart : LocalDate.now());
         employes.add(employe);
         return employe;
 	}	
-	void remove(Employe employe)
+	public void remove(Employe employe)
 	{
 		employes.remove(employe);
+		
+		
 	}
 	
 	/**
