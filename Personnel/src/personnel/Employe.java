@@ -20,8 +20,9 @@ public class Employe implements Serializable, Comparable<Employe>
 	private Ligue ligue;
 	private GestionPersonnel gestionPersonnel;
 	private int id;
+	private int role;
 	
-	public Employe(GestionPersonnel gestionPersonnel, Ligue ligue, String nom, String prenom, String mail, String password, LocalDate arrive_en, LocalDate partit_en,int id)
+	public Employe(GestionPersonnel gestionPersonnel, Ligue ligue, String nom, String prenom, String mail, String password, LocalDate arrive_en, LocalDate partit_en,int id,int role)
 	{
 		this.gestionPersonnel = gestionPersonnel;
 		this.nom = nom;
@@ -32,9 +33,10 @@ public class Employe implements Serializable, Comparable<Employe>
 		this.date_arrive = arrive_en;
 		this.date_depart = partit_en;
 		this.id = id;
+		this.role = role;
 		
 	}
-	public Employe(GestionPersonnel gestionPersonnel, Ligue ligue, String nom, String prenom, String mail, String password, LocalDate arrive_en, LocalDate partit_en) throws SauvegardeImpossible
+	public Employe(GestionPersonnel gestionPersonnel, Ligue ligue, String nom, String prenom, String mail, String password, LocalDate arrive_en, LocalDate partit_en,int role) throws SauvegardeImpossible
 	{
 		this.gestionPersonnel = gestionPersonnel;
 		this.nom = nom;
@@ -70,6 +72,10 @@ public class Employe implements Serializable, Comparable<Employe>
 	public boolean estRoot()
 	{
 		return gestionPersonnel.getRoot() == this;
+	}
+	
+	public void setId(int id) {
+		this.id = id;
 	}
 	/**
 	 * Retourne l id de l employe.
@@ -137,7 +143,8 @@ public class Employe implements Serializable, Comparable<Employe>
 
 	public void setMail(String mail) throws SauvegardeImpossible
 	{
-			gestionPersonnel.updateEmploye(this,"mail",this.getMail());
+		this.mail = mail;
+		gestionPersonnel.updateEmploye(this,"mail",this.getMail());
 
 	}
 
@@ -182,6 +189,12 @@ public class Employe implements Serializable, Comparable<Employe>
 	{
 		return ligue;
 	}
+	public void setRole(int role) {
+		this.role = role;
+	}
+	public int getRole() {
+		return role;
+	}
 
 	/* retourne la date d'arrive d'un employer
 	@return retourne la date d'arrive d'un employer  */
@@ -203,13 +216,16 @@ public class Employe implements Serializable, Comparable<Employe>
 		if ( this.date_arrive != null && with_date.isBefore(this.date_arrive) ) {
 			throw new MauvaiseDate("impossible de definir une date de d'arrive qui est avant l'ancienne date d'arrive");
 		}
-		
-		if ( this.date_depart != null ) {
-			this.date_depart = null;
+		if(date_depart != null) {
+			if(with_date.isAfter(date_depart)) {
+				this.date_depart = null;
+				this.setDepart(date_depart);
+			}
 		}
 		
+		
 		this.date_arrive = with_date;
-		gestionPersonnel.updateEmploye(this,"daterrive",this.getArrive().toString());
+		gestionPersonnel.updateEmploye(this,"datearrive",this.getArrive().toString());
 	}
 
 	// TODO: check si depart < a arrivé
@@ -218,15 +234,25 @@ public class Employe implements Serializable, Comparable<Employe>
 	public void setDepart(LocalDate with_date) throws MauvaiseDate,SauvegardeImpossible{
 		
 		if ( this.date_arrive == null ) {
-			throw new MauvaiseDate("impossible de definir uen date de depart si il n'y a pas de date d'arrivé");
+			throw new MauvaiseDate("impossible de definir une date de depart si il n'y a pas de date d'arrivé");
 		}
 		
-		if ( with_date.isBefore(this.date_arrive) ) {
-			throw new MauvaiseDate("la date de départ de peux pas etre avant la date d'arrivé");
+		if(with_date != null) {
+			if ( with_date.isBefore(this.date_arrive) ) {
+				throw new MauvaiseDate("la date de départ de peux pas etre avant la date d'arrivé");
+			}
 		}
+		
 		
 		this.date_depart = with_date;
-		gestionPersonnel.updateEmploye(this,"datedepart",this.getDepart().toString());
+		try 
+		{
+			gestionPersonnel.updateEmploye(this,"datedepart",this.getDepart().toString());
+		}
+		catch(NullPointerException npe) {
+			gestionPersonnel.updateEmploye(this,"datedepart",null);
+		}
+		
 	}
 	
 	// TODO: ajouter method pour ajouter depuis un string, throw si pas bon
@@ -243,9 +269,10 @@ public class Employe implements Serializable, Comparable<Employe>
 	/**
 	 * Supprime l'employé. Si celui-ci est un administrateur, le root
 	 * récupère les droits d'administration sur sa ligue.
+	 * @throws SauvegardeImpossible 
 	 */
 	
-	public void remove()
+	public void remove() throws SauvegardeImpossible
 	{
 		Employe root = gestionPersonnel.getRoot();
 		if (this != root)
@@ -280,7 +307,7 @@ public class Employe implements Serializable, Comparable<Employe>
 	{ if(this.date_depart != null) {
 		
 	}
-		String res = nom + " " + prenom + " " + mail + " " + this.date_arrive +" "+id+" ";
+		String res = nom + " " + prenom + " " + mail + " " + this.date_arrive +" "+id+" "+role+" | ";
 		if (this.date_depart != null) {
 			res += this.date_depart+" (";
 		}else {

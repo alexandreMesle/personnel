@@ -53,11 +53,19 @@ public class JDBC implements Passerelle
 				while(employes.next())
 				{
 					try {
-						ligue.addEmploye(employes.getString(2), employes.getString(3), employes.getString(4), employes.getString(5),LocalDate.parse(employes.getString(6)),employes.getInt(1));
+						ligue.addEmploye(employes.getString(2), employes.getString(3), employes.getString(4), employes.getString(5),LocalDate.parse(employes.getString(6)),LocalDate.parse(employes.getString(7)),employes.getInt(1),employes.getInt(9));
 					} catch (SauvegardeImpossible e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+					catch(NullPointerException npe) {
+						try {
+							ligue.addEmploye(employes.getString(2), employes.getString(3), employes.getString(4), employes.getString(5),LocalDate.parse(employes.getString(6)),null,employes.getInt(1),employes.getInt(9));
+						} catch (SauvegardeImpossible e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+					
 				}
 			}
 		}
@@ -67,7 +75,48 @@ public class JDBC implements Passerelle
 		}
 		return gestionPersonnel;
 	}
+	
+	/*
+	 * Check le Super Admin
+	 */
+	public String[] checkAdmin() {
+		try {
+			String requeteAdmin = "SELECT mail,password FROM employe WHERE id = -1";
+			Statement instructionAdmn = connection.createStatement();
+			ResultSet admin = instructionAdmn.executeQuery(requeteAdmin);
+			if(admin.next()) {
+				return new String[] {admin.getString(1),admin.getString(2)} ;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	public int[] checkUser(String email,String password) {
+		try {
+			String requeteUser = "Select password,id_ligue,id_role FROM employe where mail ='"+email+"'";
+			Statement instructionUsr = connection.createStatement();
+			ResultSet user = instructionUsr.executeQuery(requeteUser);
+			if(user.next()) {
+				if(user.getString(1).equals(password)) {
+					int[] data = new int[2];
+					data[0] = user.getInt(2);
+					data[1] = user.getInt(3);
+					return data;
+				}
+			}
+			else {
+				int[] data = new int[2];
+				data[0] = -1;
+				data[1] = -1;
+				return data;
+				}
 
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 	@Override
 	public void sauvegarderGestionPersonnel(GestionPersonnel gestionPersonnel) throws SauvegardeImpossible 
 	{
@@ -98,7 +147,6 @@ public class JDBC implements Passerelle
 			instruction.executeUpdate();
 			ResultSet id = instruction.getGeneratedKeys();
 			id.next();
-			System.out.println(id);
 			return id.getInt(1);
 		} 
 		catch (SQLException exception) 
@@ -113,14 +161,14 @@ public class JDBC implements Passerelle
 		try 
 		{
 			PreparedStatement instruction;
-			instruction = connection.prepareStatement("INSERT into employe (nom,premom,mail,password,id_ligue,DateArrive) values(?,?,?,?,?,?)",Statement.RETURN_GENERATED_KEYS);
+			instruction = connection.prepareStatement("INSERT into employe (nom,premom,mail,password,id_ligue,DateArrive,id_role) values(?,?,?,?,?,?,?)",Statement.RETURN_GENERATED_KEYS);
 			instruction.setString(1,employe.getNom());
 			instruction.setString(2,employe.getPrenom());
 			instruction.setString(3,employe.getMail());
 			instruction.setString(4,employe.getPassword());
 			instruction.setInt(5,employe.getLigue().getId());
 			instruction.setString(6,employe.getArrive().toString());
-//			instruction.setString(7,employe.getDepart().toString());
+			instruction.setInt(7,0);
 			instruction.executeUpdate();
 			ResultSet id = instruction.getGeneratedKeys();
 			id.next();
@@ -201,7 +249,6 @@ public class JDBC implements Passerelle
 	
 			return 0;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			throw new SauvegardeImpossible(e);
 		}

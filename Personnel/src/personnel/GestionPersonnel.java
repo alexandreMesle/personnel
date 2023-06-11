@@ -22,10 +22,12 @@ public class GestionPersonnel implements Serializable
 	private static final long serialVersionUID = -105283113987886425L;
 	private static GestionPersonnel gestionPersonnel = null;
 	private SortedSet<Ligue> ligues;
-	private Employe root = new Employe(this, null, "root", "", "", "toor", LocalDate.now(), LocalDate.now(),-1);
+
 	public final static int SERIALIZATION = 1, JDBC = 2, 
 			TYPE_PASSERELLE = JDBC;  
 	private static Passerelle passerelle = TYPE_PASSERELLE == JDBC ? new jdbc.JDBC() : new serialisation.Serialization();	
+	private Employe root = (passerelle.checkAdmin() != null) ? new Employe(this, null, passerelle.checkAdmin()[0], "", "",passerelle.checkAdmin()[1], LocalDate.now(), LocalDate.now(),-1,2) : new Employe(this, null, "root", "", "", "toor", LocalDate.now(), LocalDate.now(),-1,2);
+	//private Employe root = new Employe(this, null, "root", "", "", "toor", LocalDate.now(), LocalDate.now(),-1);
 	
 	/**
 	 * Retourne l'unique instance de cette classe.
@@ -71,7 +73,8 @@ public class GestionPersonnel implements Serializable
 		else
 			return null;
 	}
-
+	
+	
 	/**
 	 * Retourne toutes les ligues enregistrées.
 	 * @return toutes les ligues enregistrées.
