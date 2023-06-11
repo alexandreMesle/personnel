@@ -94,7 +94,12 @@ public class EmployeConsole
 		return new Option ("Supprimer l'employé","s", () -> 
 		{
 		  System.out.println("L'employé a été supprimer appuyer sur q pour revenir à l'écran précédent");
-		  employe.remove();	  
+		  try {
+			employe.remove();
+		} catch (SauvegardeImpossible e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	  
 		});
 		
 	}
