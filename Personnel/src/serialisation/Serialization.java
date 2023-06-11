@@ -79,4 +79,12 @@ public class Serialization implements personnel.Passerelle
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	@Override
+	public String[] checkAdmin() {
+		return null;
+	}
+	@Override
+	public int[] checkUser(String email,String password) {
+		return null;
+	}
 }

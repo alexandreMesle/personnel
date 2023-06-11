@@ -10,4 +10,6 @@ public interface Passerelle
 	public void deleteEmploye(Employe employe) throws SauvegardeImpossible;
 	public int update(Ligue ligue) throws SauvegardeImpossible;
 	public int updateEmploye(Employe employe,String columnName,String value) throws SauvegardeImpossible;
+	public String[] checkAdmin();
+	public int[] checkUser(String email,String password);
 }
