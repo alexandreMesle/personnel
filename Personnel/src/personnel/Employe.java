@@ -1,6 +1,8 @@
 package personnel;
 
 import java.io.Serializable;
+import java.sql.SQLException;
+import java.time.LocalDate;
 
 /**
  * Employé d'une ligue hébergée par la M2L. Certains peuvent 
@@ -16,8 +18,12 @@ public class Employe implements Serializable, Comparable<Employe>
 	private String nom, prenom, password, mail;
 	private Ligue ligue;
 	private GestionPersonnel gestionPersonnel;
+	private LocalDate dateArrivee;
+	private LocalDate dateDepart;
+	private int id;
 	
-	Employe(GestionPersonnel gestionPersonnel, Ligue ligue, String nom, String prenom, String mail, String password)
+	
+	Employe(GestionPersonnel gestionPersonnel, Ligue ligue, String nom, String prenom, String mail, String password, LocalDate dateArrivee, LocalDate dateDepart)
 	{
 		this.gestionPersonnel = gestionPersonnel;
 		this.nom = nom;
@@ -25,6 +31,23 @@ public class Employe implements Serializable, Comparable<Employe>
 		this.password = password;
 		this.mail = mail;
 		this.ligue = ligue;
+		this.dateArrivee = dateArrivee;
+		this.dateDepart = dateDepart;
+	}
+	
+	Employe(GestionPersonnel gestionPersonnel, Ligue ligue, String nom, String prenom, String mail, String password, LocalDate dateArrivee, LocalDate dateDepart, int id)
+	{
+		this.nom = nom;
+		this.prenom = prenom;
+		this.password = password;
+		this.mail = mail;
+		this.ligue = ligue;
+		this.dateArrivee = dateArrivee;
+		this.dateDepart = dateDepart;
+		
+			
+		this.gestionPersonnel = gestionPersonnel;
+		this.id = id;
 	}
 	
 	/**
@@ -40,7 +63,9 @@ public class Employe implements Serializable, Comparable<Employe>
 	{
 		return ligue.getAdministrateur() == this;
 	}
-	
+	 public int getId() {
+		 return this.id;
+	 }
 	/**
 	 * Retourne vrai ssi l'employé est le root.
 	 * @return vrai ssi l'employé est le root.
@@ -49,6 +74,41 @@ public class Employe implements Serializable, Comparable<Employe>
 	public boolean estRoot()
 	{
 		return gestionPersonnel.getRoot() == this;
+	}
+	public LocalDate getdateArrivee() 
+	{
+	    return dateArrivee != null ? dateArrivee : LocalDate.now();
+	}
+	
+	public void setDateArrivee(LocalDate dateArrivee) throws DateImpossible
+	{
+		if(dateArrivee != null && dateDepart != null && dateArrivee.isBefore(dateDepart))
+			throw new DateImpossible();
+		else 
+		{
+			this.dateArrivee = dateArrivee != null ? dateArrivee : LocalDate.now();
+		}
+			
+	}
+	
+	
+	public LocalDate getdateDepart() 
+	{
+	    return dateDepart != null ? dateDepart : LocalDate.now();
+	}
+	
+	public void setDateDepart(LocalDate dateDepart) throws DateImpossible
+	{
+		if(dateArrivee != null && dateDepart != null && dateDepart.isAfter(dateArrivee))
+			throw new DateImpossible();
+		else 
+		{
+			this.dateDepart = dateDepart;
+		}
+			
+	}
+	public int getIdLigue() {
+		return this.ligue.getId();
 	}
 	
 	/**
@@ -64,11 +124,18 @@ public class Employe implements Serializable, Comparable<Employe>
 	/**
 	 * Change le nom de l'employé.
 	 * @param nom le nouveau nom.
+	 * @throws SauvegardeImpossible 
 	 */
 	
-	public void setNom(String nom)
+	public void setNom(String nom) 
 	{
 		this.nom = nom;
+		try {
+			gestionPersonnel.update(this);
+		} catch (SauvegardeImpossible e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -89,6 +156,13 @@ public class Employe implements Serializable, Comparable<Employe>
 	public void setPrenom(String prenom)
 	{
 		this.prenom = prenom;
+		try {
+			gestionPersonnel.update(this);
+		} catch (SauvegardeImpossible e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 	/**
@@ -100,7 +174,6 @@ public class Employe implements Serializable, Comparable<Employe>
 	{
 		return mail;
 	}
-	
 	/**
 	 * Change le mail de l'employé.
 	 * @param mail le nouveau mail de l'employé.
@@ -109,6 +182,37 @@ public class Employe implements Serializable, Comparable<Employe>
 	public void setMail(String mail)
 	{
 		this.mail = mail;
+		try {
+			gestionPersonnel.update(this);
+		} catch (SauvegardeImpossible e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	public void setArrivee(String date, LocalDate dateArrivee)  {
+		// TODO Auto-generated method stub
+		 this.dateArrivee = dateArrivee ;
+			try {
+				gestionPersonnel.update(this);
+			} catch (SauvegardeImpossible e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+	}
+
+	public void setDepart(String date, LocalDate dateDepart) {
+		// TODO Auto-generated method stub
+		this.dateDepart = dateDepart ;
+		try {
+			gestionPersonnel.update(this);
+		} catch (SauvegardeImpossible e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 	/**
@@ -123,15 +227,26 @@ public class Employe implements Serializable, Comparable<Employe>
 	{
 		return this.password.equals(password);
 	}
-
+	public String getPassword() {
+		// TODO Auto-generated method stub
+		return this.password;
+	}
 	/**
 	 * Change le password de l'employé.
 	 * @param password le nouveau password de l'employé. 
+	 * @throws SauvegardeImpossible 
 	 */
 	
 	public void setPassword(String password)
 	{
 		this.password= password;
+		try {
+			gestionPersonnel.update(this);
+		} catch (SauvegardeImpossible e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 	/**
@@ -143,7 +258,27 @@ public class Employe implements Serializable, Comparable<Employe>
 	{
 		return ligue;
 	}
-
+	
+	public int getType() {
+		/* TODO if pour savoir le type */
+		
+		int typ = 0;
+		
+		if (this.estRoot()) 
+		{
+			typ = 2;
+		}
+		else if (this.estAdmin(ligue)) // admin
+		{
+			typ = 1;
+		}
+		else // employé simple
+		{
+			typ = 0;
+		}
+	
+		return typ;
+	}
 	/**
 	 * Supprime l'employé. Si celui-ci est un administrateur, le root
 	 * récupère les droits d'administration sur sa ligue.
@@ -161,7 +296,20 @@ public class Employe implements Serializable, Comparable<Employe>
 		else
 			throw new ImpossibleDeSupprimerRoot();
 	}
-
+	public void update() throws SQLException
+	{
+		try {
+			gestionPersonnel.update(this);
+		} catch (SauvegardeImpossible e) {
+			
+			e.printStackTrace();
+		}
+	}
+	
+	public GestionPersonnel getGestion() {
+		return gestionPersonnel;
+	}
+	
 	@Override
 	public int compareTo(Employe autre)
 	{
@@ -174,11 +322,13 @@ public class Employe implements Serializable, Comparable<Employe>
 	@Override
 	public String toString()
 	{
-		String res = nom + " " + prenom + " " + mail + " (";
+		String res = nom + " " + prenom + " " + mail + " " + dateArrivee + " " + dateDepart + " (";
 		if (estRoot())
 			res += "super-utilisateur";
 		else
 			res += ligue.toString();
 		return res + ")";
 	}
+
+	
 }

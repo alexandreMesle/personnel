@@ -1,5 +1,6 @@
 package personnel;
 
+
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.SortedSet;
@@ -20,18 +21,19 @@ public class GestionPersonnel implements Serializable
 	private static final long serialVersionUID = -105283113987886425L;
 	private static GestionPersonnel gestionPersonnel = null;
 	private SortedSet<Ligue> ligues;
-	private Employe root = new Employe(this, null, "root", "", "", "toor");
+	private Employe root = new Employe(this, null, "root", "", "", "toor", null, null);
 	public final static int SERIALIZATION = 1, JDBC = 2, 
-			TYPE_PASSERELLE = SERIALIZATION;  
+			TYPE_PASSERELLE = JDBC;  
 	private static Passerelle passerelle = TYPE_PASSERELLE == JDBC ? new jdbc.JDBC() : new serialisation.Serialization();	
 	
 	/**
 	 * Retourne l'unique instance de cette classe.
 	 * Crée cet objet s'il n'existe déjà.
 	 * @return l'unique objet de type {@link GestionPersonnel}.
+	 * @throws SauvegardeImpossible 
 	 */
 	
-	public static GestionPersonnel getGestionPersonnel()
+	public static GestionPersonnel getGestionPersonnel() throws SauvegardeImpossible
 	{
 		if (gestionPersonnel == null)
 		{
@@ -50,6 +52,8 @@ public class GestionPersonnel implements Serializable
 		gestionPersonnel = this;
 	}
 	
+
+    
 	public void sauvegarder() throws SauvegardeImpossible
 	{
 		passerelle.sauvegarderGestionPersonnel(this);
@@ -94,16 +98,32 @@ public class GestionPersonnel implements Serializable
 		return ligue;
 	}
 
-	void remove(Ligue ligue)
+	public void remove(Ligue ligue) throws SauvegardeImpossible
 	{
+		gestionPersonnel.delete(ligue);
 		ligues.remove(ligue);
 	}
 	
-	int insert(Ligue ligue) throws SauvegardeImpossible
+	public int insert(Ligue ligue) throws SauvegardeImpossible
 	{
 		return passerelle.insert(ligue);
 	}
-
+	
+	public int insert(Employe employe) throws SauvegardeImpossible
+    {
+ 
+        return passerelle.insert(employe);
+        
+    }
+	
+	public void update(Ligue ligue) throws SauvegardeImpossible
+	{
+		passerelle.update(ligue);
+	}
+	public void update(Employe employe) throws SauvegardeImpossible
+	{
+		passerelle.update(employe);
+	}
 	/**
 	 * Retourne le root (super-utilisateur).
 	 * @return le root.
@@ -113,4 +133,14 @@ public class GestionPersonnel implements Serializable
 	{
 		return root;
 	}
+	public void delete(Employe employe) throws SauvegardeImpossible
+	{
+			passerelle.delete(employe);	
+			
+	}
+	public void delete(Ligue ligue) throws SauvegardeImpossible
+	{
+			passerelle.delete(ligue);    /* Surcharge pour les deux méthodes delete */
+	}
+	
 }

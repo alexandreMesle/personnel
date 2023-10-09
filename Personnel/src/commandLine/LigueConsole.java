@@ -3,6 +3,8 @@ package commandLine;
 import static commandLineMenus.rendering.examples.util.InOut.getString;
 
 import java.util.ArrayList;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 
 import commandLineMenus.List;
 import commandLineMenus.Menu;
@@ -23,7 +25,7 @@ public class LigueConsole
 
 	Menu menuLigues()
 	{
-		Menu menu = new Menu("Gérer les ligues", "l");
+		Menu menu = new Menu("Gérer les ligues", "0");
 		menu.add(afficherLigues());
 		menu.add(ajouterLigue());
 		menu.add(selectionnerLigue());
@@ -33,12 +35,12 @@ public class LigueConsole
 
 	private Option afficherLigues()
 	{
-		return new Option("Afficher les ligues", "l", () -> {System.out.println(gestionPersonnel.getLigues());});
+		return new Option("Afficher les ligues", "0", () -> {System.out.println(gestionPersonnel.getLigues());});
 	}
 
 	private Option afficher(final Ligue ligue)
 	{
-		return new Option("Afficher la ligue", "l", 
+		return new Option("Afficher la ligue", "0", 
 				() -> 
 				{
 					System.out.println(ligue);
@@ -48,7 +50,7 @@ public class LigueConsole
 	}
 	private Option afficherEmployes(final Ligue ligue)
 	{
-		return new Option("Afficher les employes", "l", () -> {System.out.println(ligue.getEmployes());});
+		return new Option("Afficher les employes", "0", () -> {System.out.println(ligue.getEmployes());});
 	}
 
 	private Option ajouterLigue()
@@ -71,7 +73,7 @@ public class LigueConsole
 		Menu menu = new Menu("Editer " + ligue.getNom());
 		menu.add(afficher(ligue));
 		menu.add(gererEmployes(ligue));
-		//menu.add(changerAdministrateur(ligue));
+//		menu.add(changerAdministrateur(ligue));
 		menu.add(changerNom(ligue));
 		menu.add(supprimer(ligue));
 		menu.addBack("q");
@@ -81,7 +83,12 @@ public class LigueConsole
 	private Option changerNom(final Ligue ligue)
 	{
 		return new Option("Renommer", "r", 
-				() -> {ligue.setNom(getString("Nouveau nom : "));});
+				() -> {try {
+					ligue.setNom(getString("Nouveau nom : "));
+				} catch (SauvegardeImpossible e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}});
 	}
 
 	private List<Ligue> selectionnerLigue()
@@ -94,51 +101,73 @@ public class LigueConsole
 	
 	private Option ajouterEmploye(final Ligue ligue)
 	{
-		return new Option("ajouter un employé", "a",
-				() -> 
-				{
-					ligue.addEmploye(getString("nom : "), 
-						getString("prenom : "), getString("mail : "), 
-						getString("password : "));
-				}
-		);
+	    return new Option("ajouter un employé", "a",
+	        () -> 
+	        {
+	            String nom, prenom, mail, password;
+	            LocalDate Arrivee = null, Depart = null;
+
+	            nom = getString("nom : ");
+	            prenom = getString("prenom : ");
+	            mail = getString("mail : ");
+	            password = getString("mot de passe : ");
+	            Arrivee = parseDate("Date Arrivee YYYY-MM-DD : ");
+	            while (true) {
+	                Depart = parseDate("Date Depart YYYY-MM-DD : ");
+	                if (!Depart.isBefore(Arrivee)) {
+	                    break;
+	                }
+	                System.out.println("La date de départ doit être postérieure ou égale à la date d'arrivée.");
+	            }
+	            ligue.addEmploye(nom, prenom, mail, password, Arrivee, Depart, 0);
+	        }
+	    );
 	}
+	  private LocalDate parseDate(String string){
+	        while(true)
+	            try {
+	            return LocalDate.parse(getString(string));
+	             }
+	        catch(DateTimeParseException e) 
+	        {
+	             System.err.println("Erreur! Veuillez respecter le format YYYY-MM-DD");
+	        }
+	    
+	    }
 	
 	private Menu gererEmployes(Ligue ligue)
 	{
 		Menu menu = new Menu("Gérer les employés de " + ligue.getNom(), "e");
 		menu.add(afficherEmployes(ligue));
 		menu.add(ajouterEmploye(ligue));
-		menu.add(modifierEmploye(ligue));
-		menu.add(supprimerEmploye(ligue));
+		menu.add(selectionnerEmploye(ligue));
 		menu.addBack("q");
 		return menu;
 	}
 
-	private List<Employe> supprimerEmploye(final Ligue ligue)
-	{
-		return new List<>("Supprimer un employé", "s", 
-				() -> new ArrayList<>(ligue.getEmployes()),
-				(index, element) -> {element.remove();}
-				);
-	}
-	
-	private List<Employe> changerAdministrateur(final Ligue ligue)
-	{
-		return null;
-	}		
 
-	private List<Employe> modifierEmploye(final Ligue ligue)
+	
+//	private List<Employe> changerAdministrateur(final Ligue ligue)
+//	{
+//		return new List<>("Modifier l'administrateur de la ligue", "o", 
+//                () -> new ArrayList<>(ligue.getEmployes()),
+//                (index, element) -> {ligue.setAdministrateur(element);
+//                }
+//                );
+//	}		
+
+	private List<Employe> selectionnerEmploye(final Ligue ligue)
 	{
-		return new List<>("Modifier un employé", "e", 
+		return new List<>("Selectionner un employé", "r", 
 				() -> new ArrayList<>(ligue.getEmployes()),
 				employeConsole.editerEmploye()
 				);
 	}
-	
+
 	private Option supprimer(Ligue ligue)
 	{
-		return new Option("Supprimer", "d", () -> {ligue.remove();});
+		return new Option("Supprimer", "d", () -> {ligue.remove();
+		});
 	}
 	
 }

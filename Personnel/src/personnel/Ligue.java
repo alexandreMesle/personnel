@@ -1,6 +1,8 @@
 package personnel;
 
 import java.io.Serializable;
+import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -21,6 +23,7 @@ public class Ligue implements Serializable, Comparable<Ligue>
 	private SortedSet<Employe> employes;
 	private Employe administrateur;
 	private GestionPersonnel gestionPersonnel;
+	public int getId;
 	
 	/**
 	 * Crée une ligue.
@@ -55,11 +58,13 @@ public class Ligue implements Serializable, Comparable<Ligue>
 	/**
 	 * Change le nom.
 	 * @param nom le nouveau nom de la ligue.
+	 * @throws SauvegardeImpossible 
 	 */
 
-	public void setNom(String nom)
+	public void setNom(String nom) throws SauvegardeImpossible
 	{
 		this.nom = nom;
+		gestionPersonnel.update(this);
 	}
 
 	/**
@@ -72,6 +77,10 @@ public class Ligue implements Serializable, Comparable<Ligue>
 		return administrateur;
 	}
 
+	public int getId() {
+		return this.id;
+	}
+	
 	/**
 	 * Fait de administrateur l'administrateur de la ligue.
 	 * Lève DroitsInsuffisants si l'administrateur n'est pas 
@@ -105,19 +114,35 @@ public class Ligue implements Serializable, Comparable<Ligue>
 	 * @param prenom le prénom de l'employé.
 	 * @param mail l'adresse mail de l'employé.
 	 * @param password le password de l'employé.
+	 * @param Depart 
+	 * @param Arrivee 
+	 * @param id2 
 	 * @return l'employé créé. 
 	 */
 
-	public Employe addEmploye(String nom, String prenom, String mail, String password)
-	{
-		Employe employe = new Employe(this.gestionPersonnel, this, nom, prenom, mail, password);
-		employes.add(employe);
-		return employe;
+	public Employe addEmploye(String nom, String prenom, String mail, String password, LocalDate Arrivee, LocalDate Depart, int id2) {
+	    Employe employe = new Employe(this.gestionPersonnel, this, nom, prenom, mail, password, Depart, Arrivee);
+	    employes.add(employe);
+	    try {
+			gestionPersonnel.insert(employe);
+			
+		} catch (SauvegardeImpossible e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} // Insérer l'employé dans la base de données
+	    return employe;
 	}
 	
-	void remove(Employe employe)
+	public Employe addEmploye(String nom, String prenom, String mail, String password, LocalDate date_arrivee,LocalDate date_depart) {
+		Employe employe = new Employe(this.gestionPersonnel, this, nom, prenom, mail, password, date_arrivee != null ? date_arrivee : LocalDate.now(), date_depart != null ? date_depart : LocalDate.now());
+        employes.add(employe);
+        return employe;
+	}	
+	public void remove(Employe employe)
 	{
 		employes.remove(employe);
+		
+		
 	}
 	
 	/**
@@ -125,21 +150,39 @@ public class Ligue implements Serializable, Comparable<Ligue>
 	 * de la ligue.
 	 */
 	
-	public void remove()
-	{
-		gestionPersonnel.remove(this);
-	}
-	
 
 	@Override
 	public int compareTo(Ligue autre)
 	{
 		return getNom().compareTo(autre.getNom());
 	}
-	
+	public void remove()
+	{
+		try {
+			gestionPersonnel.remove(this);
+		} catch (SauvegardeImpossible e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public void removeAdmin()
+	{
+		administrateur = gestionPersonnel.getRoot();
+	}
+	public void update() throws SQLException
+	{
+		try {
+			gestionPersonnel.update(this);
+		} catch (SauvegardeImpossible e) {
+			
+			e.printStackTrace();
+		}
+	}
 	@Override
 	public String toString()
 	{
 		return nom;
-	}
+	}	
+	
+	
 }
